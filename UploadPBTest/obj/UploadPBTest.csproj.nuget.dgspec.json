@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Documents\\UploadPBTest\\UploadPBTest.csproj": {}
+    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Documents\\UploadPBTest\\UploadPBTest.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\UploadPBTest\\UploadPBTest.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
         "projectName": "UploadPBTest",
-        "projectPath": "C:\\Users\\user\\Documents\\UploadPBTest\\UploadPBTest.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\UploadPBTest\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\user\\Documents\\UploadPB\\UploadPB.csproj": {
-                "projectPath": "C:\\Users\\user\\Documents\\UploadPB\\UploadPB.csproj"
+              "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
+                "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj"
               }
             }
           }
@@ -88,14 +88,14 @@
         }
       }
     },
-    "C:\\Users\\user\\Documents\\UploadPB\\UploadPB.csproj": {
+    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\UploadPB\\UploadPB.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
         "projectName": "UploadPB",
-        "projectPath": "C:\\Users\\user\\Documents\\UploadPB\\UploadPB.csproj",
+        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\UploadPB\\obj\\",
+        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
