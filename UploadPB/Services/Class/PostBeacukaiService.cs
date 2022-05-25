@@ -44,7 +44,7 @@ namespace UploadPB.Services.Class
                 else
                 {
                     //new BadRequestObjectResult(new ResponseFailed($"Gagal menyimpan data, No Aju - {item.NoAju} - sudah ada di database "));
-                    throw new Exception($"Gagal menyimpan data, No Aju - {item.NoAju} - sudah ada di database.");
+                     throw new Exception($"Gagal menyimpan data, No Aju - {item.NoAju} - sudah ada di database.");
                 }
 
             }
