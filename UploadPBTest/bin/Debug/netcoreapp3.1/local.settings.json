@@ -1,0 +1,25 @@
+//{
+//    "IsEncrypted": false,
+//    "Values": {
+//        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+//        "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+//    }
+//}
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=danlirisstoragedev;AccountKey=bC9VRGVKWwyP8D/XtBIE+u8jEZdmsr0qKuGLwH+fhFoXeF0SyXJErtVg/8JEqtnnetxyCu8LQvUYrAYnx+bkwQ==;EndpointSuffix=core.windows.net",
+    "AzureWebJobs.HttpExample.Disabled": "true"
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "*",
+    "CORSCredentials": false
+  },
+  //"ConnectionStrings": { "SQLConnectionString": "Server=tcp:com-danliris-sqlserver-dev.database.windows.net,1433;Initial Catalog=com-danliris-db-dev;Persist Security Info=False;User ID=danliris;Password=Standar123.;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=1440;" },
+  "ConnectionStrings": { "SQLConnectionString": "Server=(localdb)\\MSSQLLocalDB;Database=db_temporary_supri;Trusted_Connection=True;" }
+  //"ConnectionStrings": { "SQLConnectionString": "Server=localhost;Initial Catalog=com-danliris-db-dev;Persist Security Info=False;User ID=sa;Password=incursio;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=45000;" }
+
+
+}
