@@ -23,7 +23,7 @@ namespace UploadPB.DBAdapters
         public async Task <List<string>> GetAju ()
         {
             _connection.Open();
-            var sql = "SELECT distinct NoAju FROM [dbo].[BEACUKAI_TEMPP]";
+            var sql = "SELECT distinct NoAju FROM [dbo].[BEACUKAI_TEMP]";
 
             var result = await _connection.QueryAsync<string>(sql);
 
@@ -37,7 +37,7 @@ namespace UploadPB.DBAdapters
             _connection.Open();
             foreach (var item in models)
             {
-                var query = $"INSERT INTO [dbo].[BEACUKAI_TEMPP] SELECT * FROM [dbo].[BEACUKAI_TEMPORARY] WHERE NoAju ='" + item.NoAju + "'";
+                var query = $"INSERT INTO [dbo].[BEACUKAI_TEMP] SELECT * FROM [dbo].[BEACUKAI_TEMPORARY] WHERE NoAju ='" + item.NoAju + "'";
                 var result = await _connection.QueryAsync(query);
             }
             _connection.Close();
