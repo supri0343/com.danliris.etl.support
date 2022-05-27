@@ -34,7 +34,12 @@ namespace UploadPB
                 .AddSingleton<ISqlDataContext<DokumenPelengkapTemp>>((s) =>
                 {
                     return new SqlDataContext<DokumenPelengkapTemp>(connectionString);
+                })
+                .AddSingleton<ISqlDataContext<TemporaryModel>>((s) =>
+                {
+                    return new SqlDataContext<TemporaryModel>(connectionString);
                 });
+
 
 
             builder.Services

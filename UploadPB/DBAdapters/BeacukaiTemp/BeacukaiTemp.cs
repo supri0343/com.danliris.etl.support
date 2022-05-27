@@ -51,14 +51,14 @@ namespace UploadPB.DBAdapters.BeacukaiTemp
         public async Task Insert(IEnumerable<TemporaryViewModel> models)
         {
             _connection.Open();
-            var query = $"INSERT INTO [dbo].[BEACUKAI_TEMPORARY] ([BCNo],[Barang],[Bruto],[CIF],[CIF_Rupiah],[Keterangan],[JumlahSatBarang],[KodeBarang],[KodeKemasan],[NamaKemasan],[Netto],[NoAju],[NamaSupplier],[TglDaftarAju],[TglBCNo],[Valuta],[Hari],[JenisBC],[IDHeader],[JenisDokumen],[NomorDokumen],[TanggalDokumen],[JumlahBarang],[Sat],[KodeSupplier],[TglDatang],[CreatedBy]) VALUES(@BCNo,@Barang,@Bruto,@CIF,@CIF_Rupiah,@Keterangan,@JumlahSatBarang,@KodeBarang,@KodeKemasan,@NamaKemasan,@Netto,@NoAju,@NamaSupplier,@TglDaftarAju,@TglBCNo,@Valuta,@Hari,@JenisBC,@IDHeader,@JenisDokumen,@NomorDokumen,@TanggalDokumen,@JumlahBarang,@Sat,@KodeSupplier,@TglDatang,@CreatedBy)";
+            var query = $"INSERT INTO [dbo].[BEACUKAI_TEMPORARY] ([ID],[BCNo],[Barang],[Bruto],[CIF],[CIF_Rupiah],[Keterangan],[JumlahSatBarang],[KodeBarang],[KodeKemasan],[NamaKemasan],[Netto],[NoAju],[NamaSupplier],[TglDaftarAju],[TglBCNo],[Valuta],[Hari],[JenisBC],[IDHeader],[JenisDokumen],[NomorDokumen],[TanggalDokumen],[JumlahBarang],[Sat],[KodeSupplier],[TglDatang],[CreatedBy]) VALUES(@ID,@BCNo,@Barang,@Bruto,@CIF,@CIF_Rupiah,@Keterangan,@JumlahSatBarang,@KodeBarang,@KodeKemasan,@NamaKemasan,@Netto,@NoAju,@NamaSupplier,@TglDaftarAju,@TglBCNo,@Valuta,@Hari,@JenisBC,@IDHeader,@JenisDokumen,@NomorDokumen,@TanggalDokumen,@JumlahBarang,@Sat,@KodeSupplier,@TglDatang,@CreatedBy)";
             var result = await _connection.ExecuteAsync(query, models);
             _connection.Close();
         }
 
         public async Task<List<TemporaryViewModel>>Get()
         {
-            var query = "select distinct NoAju,BCNo,TglBCNO from BEACUKAI_TEMPORARY order by NoAju,BCNo";
+            var query = "select distinct ID,NoAju,BCNo,TglBCNO from BEACUKAI_TEMPORARY order by NoAju,BCNo";
             var result = await _connection.QueryAsync<TemporaryViewModel>(query);
 
             return result.ToList();

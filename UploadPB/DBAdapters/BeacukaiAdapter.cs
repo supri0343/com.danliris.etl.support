@@ -32,6 +32,19 @@ namespace UploadPB.DBAdapters
             _connection.Close();
         }
 
+        public async Task<List<string>> GetLastNo()
+        {
+            
+            var sql = "SELECT top 1 ID FROM [dbo].[BEACUKAI_TEMP] order by ID desc";
+
+            var result = await _connection.QueryAsync<string>(sql);
+
+            return result.ToList();
+
+            _connection.Close();
+        }
+
+
         public async Task PostBC(List<TemporaryViewModel> models)
         {
             _connection.Open();
@@ -43,11 +56,22 @@ namespace UploadPB.DBAdapters
             _connection.Close();
         }
 
+        public async Task <List<TemporaryViewModel>> GetDataBC(string NoAju)
+        {
+          
+            var query = $"SELECT * FROM [dbo].[BEACUKAI_TEMPORARY] WHERE NoAju = '"+NoAju+"' ";
+            var result = await _connection.QueryAsync<TemporaryViewModel>(query);
+
+            return result.ToList();
+            _connection.Close();
+        }
+
+
         public async Task DeleteBeacukaiTemporary()
         {
             try
             {
-                _connection.Open();
+                //_connection.Open();
                 var query = $"DELETE from [dbo].[BEACUKAI_TEMPORARY]";
                 await _connection.QueryAsync(query);
                 _connection.Close();
@@ -57,6 +81,20 @@ namespace UploadPB.DBAdapters
             {
                 throw ex;
             }
+        }
+
+        public async Task DeleteBeacukaiTemporaryNotAll(List<TemporaryViewModel> models)
+        {
+            foreach (var item in models)
+            {
+                //_connection.Open();
+                var query = $"DELETE from [dbo].[BEACUKAI_TEMPORARY] where NoAju='"+item.NoAju+"'";
+                await _connection.QueryAsync(query);
+                _connection.Close();
+                //return true;
+            }
+            
+            
         }
 
         public async Task UpdateTemp(List<TemporaryViewModel> models)

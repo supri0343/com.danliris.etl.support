@@ -6,6 +6,7 @@ namespace UploadPB.ViewModels
 {
     public class TemporaryViewModel
     {
+        public int ID { get; set; }
         public string BCId { get; set; }
         public string BCNo { get; set; }
         public string Barang { get; set; }
