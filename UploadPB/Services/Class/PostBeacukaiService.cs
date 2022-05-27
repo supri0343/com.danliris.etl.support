@@ -64,7 +64,7 @@ namespace UploadPB.Services.Class
                 var index = 1;
                 foreach (var detail in ver)
                 {
-                    detail.ID = Convert.ToInt16(lastno[0]) + index;
+                    detail.ID = Convert.ToInt32(lastno[0]) + index;
                     index++;
                     databcc.Add(detail);
                 }
