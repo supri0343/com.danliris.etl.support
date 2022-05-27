@@ -20,9 +20,11 @@ namespace UploadPB.Services.Class
     public class PostBeacukaiService : IPostBeacukai
     {
         static string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
+        public IGetandPostTemporary _getandPostTemporary;
 
-        public PostBeacukaiService(IServiceProvider provider)
+        public PostBeacukaiService(IServiceProvider provider, IGetandPostTemporary getandPostTemporary)
         {
+            _getandPostTemporary = getandPostTemporary;
             //beacukaiTemp = provider.GetService<IBeacukaiTemp>();
 
         }
@@ -30,9 +32,12 @@ namespace UploadPB.Services.Class
         public async Task PostBeacukai(List<TemporaryViewModel> data)
         {
             var adapter = new BeacukaiAdapter(connectionString);
+            var adapter2 = new BeacukaiTemp(connectionString);
             var databc = await adapter.GetAju();
+            var lastno = await adapter.GetLastNo();
+            var databcc = new List<TemporaryViewModel>();
+            
 
-           
             foreach (var item in data)
             {
                 if (!databc.Contains(item.NoAju))
@@ -50,6 +55,26 @@ namespace UploadPB.Services.Class
             }
 
             await adapter.UpdateTemp(data);
+
+
+            foreach (var item in data)
+            {
+                var ver = await adapter.GetDataBC(item.NoAju);
+
+                var index = 1;
+                foreach (var detail in ver)
+                {
+                    detail.ID = Convert.ToInt16(lastno[0]) + index;
+                    index++;
+                    databcc.Add(detail);
+                }
+
+
+            }
+
+            await adapter.DeleteBeacukaiTemporaryNotAll(data);
+            await adapter2.Insert(databcc);
+
 
             try
             {

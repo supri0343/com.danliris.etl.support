@@ -42,6 +42,7 @@ namespace UploadPB.Services.Class
                                join b in Barang on a.NoAju equals b.NoAju
                                select new TemporaryViewModel
                                {
+                                   ID =0,
                                    BCNo = a.BCNo,
                                    Barang = b.Barang,
                                    Bruto = a.Bruto,
@@ -65,6 +66,7 @@ namespace UploadPB.Services.Class
                                 join b in DokumenPelengkap on a.NoAju equals b.NoAju
                                 select new TemporaryViewModel
                                 {
+                                    ID=0,
                                     BCNo = a.BCNo,
                                     Bruto = a.Bruto,
                                     NoAju = b.NoAju,
