@@ -54,7 +54,7 @@ namespace UploadPB.Services.Class
 
             }
 
-            await adapter.UpdateTemp(data);
+            
 
 
             foreach (var item in data)
@@ -75,6 +75,7 @@ namespace UploadPB.Services.Class
             await adapter.DeleteBeacukaiTemporaryNotAll(data);
             await adapter2.Insert(databcc);
 
+            await adapter.UpdateTemp(data);
 
             try
             {
