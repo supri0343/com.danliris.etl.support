@@ -11,6 +11,7 @@ using UploadPB.Models.BCTemp;
 using UploadPB.Tools;
 using UploadPB.DBAdapters;
 using UploadPB.DBAdapters.Insert;
+using UploadPB.ViewModels;
 
 //using Com.Danliris.ETL.Service.DBAdapters.DyeingAdapters;
 //using Com.Danliris.ETL.Service.ExcelModels.DashboardDyeingModels;
@@ -32,7 +33,7 @@ namespace UploadPB.Services.Class
             dokumenPelengkapAdapter = provider.GetService<IDokumenPelengkapAdapter>();
         }
 
-        public async Task Upload(ExcelWorksheets sheet)
+        public async Task<List<TemporaryViewModel>> Upload(ExcelWorksheets sheet)
         {
             try
             {
@@ -59,33 +60,92 @@ namespace UploadPB.Services.Class
                 //    }
                 //    data++;
                 //}
+                var ListHeader = new List<HeaderDokumenTempModel>();
+                var ListBarang = new List<BarangTemp>();
+                var ListDokument = new List<DokumenPelengkapTemp>();
 
                 var count = sheet.Count();
                 for (var i = 0; i < count; i++  )
                 {
-                    if(sheet[i].Name.ToUpper() == "HEADER DOKUMEN")
+                    if (sheet[i].Name.ToUpper() == "HEADER DOKUMEN")
                     {
-                        await UploadHeader(sheet, data);
+                        var listdata = UploadHeader(sheet, data);
+                        ListHeader = listdata;
                     }
+
                     if (sheet[i].Name.ToUpper() == "BARANG")
                     {
-                        await UploadBarang(sheet, data);
+                        var listdata =  UploadBarang(sheet, data);
+                        ListBarang = listdata;
                     }
                     if (sheet[i].Name.ToUpper() == "DOKUMEN PELENGKAP")
                     {
-                        await UploadDokumenPelengkap(sheet, data);
+                        var listdata = UploadDokumenPelengkap(sheet, data);
+                        ListDokument = listdata;
                     }
-
                     data++;
                 }
-            } catch (Exception ex)
+
+                var queryheader = (from a in ListHeader
+                                   join b in ListBarang on a.NoAju equals b.NoAju
+                                   select new TemporaryViewModel
+                                   {
+                                       ID = 0,
+                                       BCNo = a.BCNo,
+                                       Barang = b.Barang,
+                                       Bruto = a.Bruto,
+                                       CIF = a.CIF,
+                                       CIF_Rupiah = a.CIF_Rupiah,
+                                       JumlahSatBarang = b.JumlahSatBarang,
+                                       KodeBarang = b.KodeBarang,
+                                       Netto = a.Netto,
+                                       NoAju = b.NoAju,
+                                       NamaSupplier = a.NamaSupplier,
+                                       Vendor = a.Vendor,
+                                       TglBCNO = a.TglBCNO,
+                                       Valuta = a.Valuta,
+                                       JenisBC = a.JenisBC,
+                                       JumlahBarang = a.JumlahBarang,
+                                       Sat = b.Sat,
+                                       KodeSupplier = a.KodeSupplier,
+                                   }).ToList();
+
+                var querydokumen = (from a in ListHeader
+                                    join b in ListDokument on a.NoAju equals b.NoAju
+                                    select new TemporaryViewModel
+                                    {
+                                        ID = 0,
+                                        BCNo = a.BCNo,
+                                        Bruto = a.Bruto,
+                                        NoAju = b.NoAju,
+                                        NamaSupplier = a.NamaSupplier,
+                                        Vendor = a.Vendor,
+                                        TglBCNO = a.TglBCNO,
+                                        Valuta = a.Valuta,
+                                        JenisBC = a.JenisBC,
+                                        JenisDokumen = b.JenisDokumen,
+                                        NomorDokumen = b.NomorDokumen,
+                                        TanggalDokumen = b.TanggalDokumen,
+                                        JumlahBarang = a.JumlahBarang
+                                    }).ToList();
+
+                foreach (var item in querydokumen)
+                {
+                    queryheader.Add(item);
+                }
+
+                return queryheader;
+
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
 
 
-        private async Task UploadDokumenPelengkap(ExcelWorksheets excel, int data)
+
+        public List<DokumenPelengkapTemp> UploadDokumenPelengkap(ExcelWorksheets excel, int data)
         {
             var sheet = excel[data];
             var totalRow = sheet.Dimension.Rows;
@@ -104,29 +164,32 @@ namespace UploadPB.Services.Class
                             ));
                     }
                 }
+
+                return listData;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Gagal memproses Sheet Dokumen Pelengkap pada baris ke-{rowIndex} - {ex.Message}");
             }
 
-            try
-            {
-                if (listData.Count() > 0)
-                {
-                    await dokumenPelengkapAdapter.DeleteBulk();
-                    await dokumenPelengkapAdapter.Insert(listData);
-                 
-                }
-            }catch (Exception ex)
-            {
-                throw new Exception($"Gagal menyimpan Sheet Dokumen Pelengkap - " + ex.Message);
-            }
+            //try
+            //{
+            //    if (listData.Count() > 0)
+            //    {
+            //        await dokumenPelengkapAdapter.DeleteBulk();
+            //        await dokumenPelengkapAdapter.Insert(listData);
+
+            //    }
+            //}catch (Exception ex)
+            //{
+            //    throw new Exception($"Gagal menyimpan Sheet Dokumen Pelengkap - " + ex.Message);
+            //}
+            
 
         }
 
 
-        private async Task UploadHeader(ExcelWorksheets excel, int data)
+        public List<HeaderDokumenTempModel> UploadHeader(ExcelWorksheets excel, int data)
         {
             var sheet = excel[data];
             var totalRow = sheet.Dimension.Rows;
@@ -150,7 +213,8 @@ namespace UploadPB.Services.Class
                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 28]),
                             converterChecker.GenerateValueStringBC(sheet.Cells[rowIndex, 6]),
                             converterChecker.GenerateValueDouble(sheet.Cells[rowIndex, 35]),
-                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 14])
+                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 14]),
+                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 40])
                             ));
                     }
                 }
@@ -159,21 +223,22 @@ namespace UploadPB.Services.Class
             {
                 throw new Exception($"Gagal memproses Sheet Header Dokumen pada baris ke-{rowIndex} - {ex.Message}");
             }
-            try
-            {
-                if (listData.Count() > 0)
-                {
-                    await headerAdapter.DeleteBulk();
-                    await headerAdapter.Insert(listData);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Gagal menyimpan Sheet Header Dokumen - " + ex.Message);
-            }
+            //try
+            //{
+            //    if (listData.Count() > 0)
+            //    {
+            //        await headerAdapter.DeleteBulk();
+            //        await headerAdapter.Insert(listData);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception($"Gagal menyimpan Sheet Header Dokumen - " + ex.Message);
+            //}
+            return listData;
         }
 
-        private async Task UploadBarang(ExcelWorksheets excel, int data)
+        public List<BarangTemp> UploadBarang(ExcelWorksheets excel, int data)
         {
             var sheet = excel[data];
             var totalRow = sheet.Dimension.Rows;
@@ -199,18 +264,19 @@ namespace UploadPB.Services.Class
             {
                 throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
             }
-            try
-            {
-                if (listData.Count() > 0)
-                {
-                    await barangAdapter.DeleteBulk();
-                    await barangAdapter.Insert(listData);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Gagal menyimpan Sheet Barang - " + ex.Message);
-            }
+            //try
+            //{
+            //    if (listData.Count() > 0)
+            //    {
+            //        await barangAdapter.DeleteBulk();
+            //        await barangAdapter.Insert(listData);
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception($"Gagal menyimpan Sheet Barang - " + ex.Message);
+            //}
+            return listData;
 
         }
     }

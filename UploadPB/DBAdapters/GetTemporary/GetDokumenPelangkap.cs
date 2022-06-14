@@ -12,20 +12,20 @@ namespace UploadPB.DBAdapters.GetTemporary
 {
     public class GetDokumenPelangkap
     {
-        private readonly IDbConnection _connection;
-        public GetDokumenPelangkap(string connectionString)
-        {
-            _connection = new SqlConnection(connectionString);
-        }
+        //    private readonly IDbConnection _connection;
+        //    public GetDokumenPelangkap(string connectionString)
+        //    {
+        //        _connection = new SqlConnection(connectionString);
+        //    }
 
-        public async Task<List<DokumenPelengkapViewModel>> Get()
-        {
-            _connection.Open();
-            var sql = "SELECT * FROM [dbo].[DOKUMENPELENGKAP_TEMP]";
+        //    public async Task<List<DokumenPelengkapViewModel>> Get()
+        //    {
+        //        _connection.Open();
+        //        var sql = "SELECT * FROM [dbo].[DOKUMENPELENGKAP_TEMP]";
 
-            var result = await _connection.QueryAsync<DokumenPelengkapViewModel>(sql);
+        //        var result = await _connection.QueryAsync<DokumenPelengkapViewModel>(sql);
 
-            return result.ToList();
-        }
+        //        return result.ToList();
+        //    }
     }
 }

@@ -52,8 +52,8 @@ namespace UploadPB.Controller
             //var date = req.Form["revisedate"];
             //var ids = req.Form["data"];
             //identityService.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
-            
-                var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
 
                 //var claims = (ClaimsIdentity)ClaimsPrincipal.Current.Identity;
 

@@ -6,7 +6,7 @@ namespace UploadPB.Models
 {
     public class HeaderDokumenTempModel
     {
-        public HeaderDokumenTempModel(string BCNo, double? Bruto, double? CIF,double? CIF_Rupiah, double? Netto, string NoAju, string NamaSupplier, DateTime? TglBCNO, string Valuta, string JenisBC, double? JumlahBarang,string KodeSupplier)
+        public HeaderDokumenTempModel(string BCNo, double? Bruto, double? CIF,double? CIF_Rupiah, double? Netto, string NoAju, string NamaSupplier, DateTime? TglBCNO, string Valuta, string JenisBC, double? JumlahBarang,string KodeSupplier,string Vendor)
         {
             this.BCNo = BCNo;
             this.Bruto = Bruto;
@@ -20,6 +20,7 @@ namespace UploadPB.Models
             this.JenisBC = JenisBC;
             this.JumlahBarang = JumlahBarang;
             this.KodeSupplier = KodeSupplier;
+            this.Vendor = Vendor;
 
         }
         public string BCNo { get; set; }
@@ -34,6 +35,7 @@ namespace UploadPB.Models
         public string JenisBC { get; set; }
         public double? JumlahBarang { get; set; }
         public string KodeSupplier { get; set; }
+        public string Vendor { get; set; }
 
 
     }
