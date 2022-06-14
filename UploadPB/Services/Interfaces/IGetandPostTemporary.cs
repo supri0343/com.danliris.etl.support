@@ -7,7 +7,7 @@ namespace UploadPB.Services.Interfaces
 {
     public interface IGetandPostTemporary
     {
-        Task CreateTemporary();
+        //Task CreateTemporary();
 
     }
 }

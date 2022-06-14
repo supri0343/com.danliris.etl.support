@@ -18,8 +18,7 @@ using UploadPB.DBAdapters;
 //using Com.Danliris.ETL.Service.DBAdapters;
 using System.Linq;
 //using Com.Danliris.ETL.Service.Services.Interfaces;
-using System.Net.Http;
-using Newtonsoft.Json;
+
 
 namespace UploadPB
 {
@@ -50,6 +49,9 @@ namespace UploadPB
             var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
             var adapter = new BeacukaiTemp(connectionString);
 
+            //identityService.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
+
+
             const string EXTENSION = ".xlsx";
 
             try
@@ -76,12 +78,16 @@ namespace UploadPB
                         {
 
 
-                            await adapter.DeleteDokumentTemp();
-                            await adapter.DeleteBarangTemp();
-                            await adapter.DeleteDokumentPelengTemp();
+                            //await adapter.DeleteDokumentTemp();
+                            //await adapter.DeleteBarangTemp();
+                            //await adapter.DeleteDokumentPelengTemp();
 
-                            await _uploadExcel.Upload(sheet);
-                            await _getandPostTemporary.CreateTemporary();
+                            var data = await _uploadExcel.Upload(sheet);
+                            //await _getandPostTemporary.CreateTemporary();
+                            await adapter.DeleteBulk();
+                            await adapter.Insert(data);
+
+                            return new OkObjectResult(new ResponseSuccess("success"));
 
                         }
                         catch (Exception ex)

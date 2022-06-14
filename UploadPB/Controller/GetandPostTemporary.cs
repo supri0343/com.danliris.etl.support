@@ -40,7 +40,7 @@ namespace UploadPB
 
             var result = await adapter.Get();
 
-            if(adapter!= null)
+            if (adapter != null)
             {
                 return new OkObjectResult(new ResponseSuccess("success", result));
             }

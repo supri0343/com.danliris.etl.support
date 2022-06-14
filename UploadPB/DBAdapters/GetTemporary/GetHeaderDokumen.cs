@@ -13,20 +13,20 @@ namespace UploadPB.DBAdapters.GetTemporary
 {
     public class GetHeaderDokumen
     {
-        private readonly IDbConnection _connection;
-        public GetHeaderDokumen(string connectionString)
-        {
-            _connection = new SqlConnection(connectionString);
-        }
+        //private readonly IDbConnection _connection;
+        //public GetHeaderDokumen(string connectionString)
+        //{
+        //    _connection = new SqlConnection(connectionString);
+        //}
 
-        public async Task<List<HeaderDokumenTempViewModel>>Get()
-        {
-            _connection.Open();
-            var sql = "SELECT * FROM [dbo].[HEADER_DOKUMEN_TEMP]";
+        //public async Task<List<HeaderDokumenTempViewModel>>Get()
+        //{
+        //    _connection.Open();
+        //    var sql = "SELECT * FROM [dbo].[HEADER_DOKUMEN_TEMP]";
 
-            var result = await _connection.QueryAsync<HeaderDokumenTempViewModel>(sql);
+        //    var result = await _connection.QueryAsync<HeaderDokumenTempViewModel>(sql);
 
-            return result.ToList();
-        }
+        //    return result.ToList();
+        //}
     }
 }

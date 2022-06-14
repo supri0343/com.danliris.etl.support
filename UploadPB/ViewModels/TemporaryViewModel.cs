@@ -35,5 +35,7 @@ namespace UploadPB.ViewModels
         public string KodeSupplier { get; set; }
         public DateTime? TglDatang { get; set; }
         public string CreatedBy { get; set; }
+        public string Vendor { get; set; }
+
     }
 }
