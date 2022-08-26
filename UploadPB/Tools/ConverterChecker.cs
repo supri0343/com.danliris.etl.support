@@ -41,13 +41,13 @@ namespace UploadPB.Tools
             return Convert.ToChar(value.Value.ToString().Trim());
         }
 
-        public DateTime? GenerateValueDate(ExcelRangeBase value) {
+        public DateTimeOffset? GenerateValueDate(ExcelRangeBase value) {
             if (value.Value == null || value.Value.Equals("-") || string.IsNullOrWhiteSpace(value.Text) || value.Text.Trim().Equals("-")) {
                 return null;
             }
-            var date = DateTime.Parse(value.Text.ToString().Trim());
-            var dateFormated = date.ToString("dd/MM/yyyy");
-            return DateTime.ParseExact(dateFormated, "dd/MM/yyyy", null);
+            var date = DateTimeOffset.Parse(value.Text.ToString().Trim());
+            var dateFormated = date.ToString("dd/MM/yyyy HH:mm:ss");
+            return DateTimeOffset.ParseExact(dateFormated, "dd/MM/yyyy HH:mm:ss", null);
         }
 
         public string GeneratePureString(ExcelRangeBase value) {

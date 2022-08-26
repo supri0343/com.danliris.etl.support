@@ -58,7 +58,7 @@ namespace UploadPB.DBAdapters.BeacukaiTemp
 
         public async Task<List<TemporaryViewModel>>Get()
         {
-            var query = "select distinct ID,NoAju,BCNo,TglBCNO from BEACUKAI_TEMPORARY order by NoAju,BCNo";
+            var query = "select distinct ID,NoAju,BCNo,TglBCNO,NamaSupplier from BEACUKAI_TEMPORARY order by NoAju,BCNo";
             var result = await _connection.QueryAsync<TemporaryViewModel>(query);
 
             return result.ToList();
