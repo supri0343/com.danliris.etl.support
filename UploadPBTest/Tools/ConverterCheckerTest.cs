@@ -204,8 +204,8 @@ namespace UploadPBTest.Tools
             ExcelWorksheets excel = excelPackage.Workbook.Worksheets;
             excel.Add("Test");
             var sheet = excel[0];
-            var dateString = DateTimeOffset.Now.ToString("dd/MM/yyyy");
-            var dateTime = DateTimeOffset.ParseExact(dateString, "dd/MM/yyyy", null);
+            var dateString = DateTimeOffset.Now.ToString("dd/MM/yyyy HH:mm:ss");
+            var dateTime = DateTimeOffset.ParseExact(dateString, "dd/MM/yyyy HH:mm:ss", null);
             sheet.Cells[1, 1].Value = DateTimeOffset.Now.ToString();
 
             ConverterChecker converterChecker = new ConverterChecker();
