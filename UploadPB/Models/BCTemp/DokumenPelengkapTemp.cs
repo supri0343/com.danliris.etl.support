@@ -6,7 +6,7 @@ namespace UploadPB.Models.BCTemp
 {
     public class DokumenPelengkapTemp
     {
-        public DokumenPelengkapTemp(string noaju,string jenisdokumen, string nomordokumen,DateTime? tanggaldokumen)
+        public DokumenPelengkapTemp(string noaju,string jenisdokumen, string nomordokumen, DateTimeOffset? tanggaldokumen)
         {
             NoAju = noaju;
             JenisDokumen = jenisdokumen;
@@ -16,6 +16,6 @@ namespace UploadPB.Models.BCTemp
         public string NoAju { get; set; }
         public string JenisDokumen { get; set; }
         public string NomorDokumen { get; set; }
-        public DateTime? TanggalDokumen { get; set; }
+        public DateTimeOffset? TanggalDokumen { get; set; }
     }
 }

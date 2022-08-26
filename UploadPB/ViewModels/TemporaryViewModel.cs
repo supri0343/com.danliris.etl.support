@@ -22,14 +22,14 @@ namespace UploadPB.ViewModels
         public string NoAju { get; set; }
         public string NamaSupplier { get; set; }
         public DateTime? TglDaftarAju { get; set; }
-        public DateTime? TglBCNO { get; set; }
+        public DateTimeOffset? TglBCNO { get; set; }
         public string Valuta { get; set; }
         public DateTime? Hari { get; set; }
         public string JenisBC { get; set; }
         public string IDHeader { get; set; }
         public string JenisDokumen { get; set; }
         public string NomorDokumen { get; set; }
-        public DateTime? TanggalDokumen { get; set; }
+        public DateTimeOffset? TanggalDokumen { get; set; }
         public double? JumlahBarang { get; set; }
         public string Sat { get; set; }
         public string KodeSupplier { get; set; }
