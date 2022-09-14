@@ -12,7 +12,8 @@ using UploadPB.Models;
 using UploadPB.ViewModels;
 using UploadPB.Services.Interfaces;
 using UploadPB.DBAdapters.BeacukaiTemp;
-
+using UploadPB.SupporttDbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace UploadPB
 {
@@ -20,10 +21,14 @@ namespace UploadPB
     {
         public IGetandPostTemporary _gettemp;
         public IServiceProvider serviceProvider;
+        private readonly SupportDbContext context;
+        private readonly DbSet<BeacukaiTemporaryModel> dbSet;
 
-        public GetandPostTemporary(IGetandPostTemporary gettempp)
+        public GetandPostTemporary(IGetandPostTemporary gettempp, SupportDbContext context)
         {
             _gettemp = gettempp;
+            this.context = context;
+            this.dbSet = context.Set<BeacukaiTemporaryModel>();
         }
 
         [FunctionName("GetTemporary")]
@@ -34,13 +39,24 @@ namespace UploadPB
             log.LogInformation("C# HTTP trigger function processed a request.");
             req.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
+            //var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
 
-            var adapter = new BeacukaiTemp(connectionString);
+            //var adapter = new BeacukaiTemp(connectionString);
 
-            var result = await adapter.Get();
+            //var result = await adapter.Get();
+            var result = this.dbSet.Select(x => new 
+            {
+                //ID = x.ID,
+                NoAju = x.NoAju,
+                BCNo = x.BCNo,
+                TglBCNO = x.TglBCNO,
+                NamaSupplier = x.NamaSupplier
+            }).Distinct().ToList().OrderBy(x =>x.NoAju);
 
-            if (adapter != null)
+            //var results = result.Distinct();
+            //var result = this.dbSet.Select(x => x).ToList();
+
+            if (result != null)
             {
                 return new OkObjectResult(new ResponseSuccess("success", result));
             }

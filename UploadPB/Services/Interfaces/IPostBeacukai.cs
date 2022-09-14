@@ -8,6 +8,6 @@ namespace UploadPB.Services.Interfaces
 {
     public interface IPostBeacukai
     {
-        Task PostBeacukai(List<TemporaryViewModel> data);
+        Task<int> PostBeacukai(List<TemporaryViewModel> data);
     }
 }

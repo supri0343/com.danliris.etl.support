@@ -6,7 +6,7 @@ namespace UploadPB.Models.BCTemp
 {
     public class BarangTemp
     {
-        public BarangTemp(string noaju, string barang, double? jumlahsatbarang, string kodebarang,string sat)
+        public BarangTemp(string noaju, string barang, decimal? jumlahsatbarang, string kodebarang,string sat)
         {
             NoAju = noaju;
             Barang = barang;
@@ -16,7 +16,7 @@ namespace UploadPB.Models.BCTemp
         }
         public string NoAju { get; set; }
         public string Barang { get; set; }
-        public double? JumlahSatBarang { get; set; }
+        public decimal? JumlahSatBarang { get; set; }
         public string KodeBarang { get; set; }
         public string Sat { get; set; }
     }

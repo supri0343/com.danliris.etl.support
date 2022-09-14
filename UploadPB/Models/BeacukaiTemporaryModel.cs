@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace UploadPB.ViewModels
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+namespace UploadPB.Models
 {
-    public class TemporaryViewModel
+
+    public class BeacukaiTemporaryModel 
     {
+        //[Key]
         public long ID { get; set; }
         public string BCId { get; set; }
         public string BCNo { get; set; }
@@ -23,7 +26,7 @@ namespace UploadPB.ViewModels
         public string NamaSupplier { get; set; }
         public DateTime? TglDaftarAju { get; set; }
         public DateTimeOffset? TglBCNO { get; set; }
-        public string Valuta { get; set; }
+        public string Valutta { get; set; }
         public DateTime? Hari { get; set; }
         public string JenisBC { get; set; }
         public string IDHeader { get; set; }
@@ -36,6 +39,5 @@ namespace UploadPB.ViewModels
         public DateTime? TglDatang { get; set; }
         public string CreatedBy { get; set; }
         public string Vendor { get; set; }
-
     }
 }

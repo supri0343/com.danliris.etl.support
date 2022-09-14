@@ -84,8 +84,10 @@ namespace UploadPB
 
                             var data = await _uploadExcel.Upload(sheet);
                             //await _getandPostTemporary.CreateTemporary();
-                            await adapter.DeleteBulk();
-                            await adapter.Insert(data);
+                            //await adapter.DeleteBulk();
+                            //await adapter.Insert(data);
+
+                            ////var CreateTemporaray = await _uploadExcel.InsertToTemporary(data);
 
                             return new OkObjectResult(new ResponseSuccess("success"));
 
