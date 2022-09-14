@@ -8,7 +8,10 @@ using UploadPB.Services.Interfaces;
 using UploadPB.DBAdapters;
 using UploadPB.DBAdapters.Insert;
 using UploadPB.DBAdapters.BeacukaiTemp;
+using UploadPB.SupporttDbContext;
 //using Microsoft.Extensions.Http;
+using Microsoft.Azure.Functions.Extensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,29 +21,35 @@ namespace UploadPB
 {
     public class Startup : FunctionsStartup
     {
-        private readonly string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
+        //private readonly string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
 
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            builder.Services
-                .AddSingleton<ISqlDataContext<HeaderDokumenTempModel>>((s) =>
-                {
-                    return new SqlDataContext<HeaderDokumenTempModel>(connectionString);
-                })
-                .AddSingleton<ISqlDataContext<BarangTemp>>((s) =>
-                {
-                    return new SqlDataContext<BarangTemp>(connectionString);
-                })
-                .AddSingleton<ISqlDataContext<DokumenPelengkapTemp>>((s) =>
-                {
-                    return new SqlDataContext<DokumenPelengkapTemp>(connectionString);
-                })
-                .AddSingleton<ISqlDataContext<TemporaryModel>>((s) =>
-                {
-                    return new SqlDataContext<TemporaryModel>(connectionString);
-                });
+
+            string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString");
+            builder.Services.AddDbContext<SupportDbContext>
+                (options => SqlServerDbContextOptionsExtensions.UseSqlServer(options,connectionString));
 
 
+            //builder.Services
+            //    .AddSingleton<ISqlDataContext<HeaderDokumenTempModel>>((s) =>
+            //    {
+            //        return new SqlDataContext<HeaderDokumenTempModel>(connectionString);
+            //    })
+            //    .AddSingleton<ISqlDataContext<BarangTemp>>((s) =>
+            //    {
+            //        return new SqlDataContext<BarangTemp>(connectionString);
+            //    })
+            //    .AddSingleton<ISqlDataContext<DokumenPelengkapTemp>>((s) =>
+            //    {
+            //        return new SqlDataContext<DokumenPelengkapTemp>(connectionString);
+            //    })
+            //    .AddSingleton<ISqlDataContext<TemporaryModel>>((s) =>
+            //    {
+            //        return new SqlDataContext<TemporaryModel>(connectionString);
+            //    });
+
+            builder.Services.AddScoped<IdentityService>();
 
             builder.Services
                 .AddTransient<IDokumenHeaderAdapter, DokumenHeaderAdapter>()
