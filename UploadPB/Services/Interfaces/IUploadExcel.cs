@@ -9,6 +9,6 @@ namespace UploadPB.Services.Interfaces
 {
     public interface IUploadExcel : IBaseService
     {
-        Task<List<TemporaryViewModel>> Upload(ExcelWorksheets sheet);
+        Task<int> Upload(ExcelWorksheets sheet);
     }
 }
