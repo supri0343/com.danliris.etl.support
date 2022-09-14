@@ -71,11 +71,11 @@ namespace UploadPB.Services.Class
                     //    }
 
                     //}
-
+                    var id = "";
                     foreach (var item in data)
                     {
                         //var ver = await adapter.GetDataBC(item.NoAju);
-
+                        id = await GenerateNo();
                         if (!existAjuBC.Contains(item.NoAju))
                         {
                             //item.BCId = await GenerateNo();
@@ -95,7 +95,7 @@ namespace UploadPB.Services.Class
                                 Beacukai_Temp datatoPost = new Beacukai_Temp
                                 {
                                     ID = Convert.ToInt32(lastNo[0] + index),
-                                    BCId = await GenerateNo(),
+                                    BCId = id,
                                     BCNo = a.BCNo,
                                     Barang = a.Barang,
                                     Bruto = a.Bruto,
