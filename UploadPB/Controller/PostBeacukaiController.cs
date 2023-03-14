@@ -42,7 +42,7 @@ namespace UploadPB.Controller
             //req.HttpContext.Request.Headers.Add("Accept", "application/json");
 
             var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
-
+            var Username = req.Headers["username"].FirstOrDefault();
             //var token = req.HttpContext.Response.Headers.ContainsKey("Authorization");
 
             //var token = req.Headers.ContainsKey("Authorization")
@@ -79,7 +79,7 @@ namespace UploadPB.Controller
 
                 try
                 {
-                    await _postBeacukai.PostBeacukai(Data);
+                    await _postBeacukai.PostBeacukai(Data, Username);
                 }
                 catch (Exception ex)
                 {
