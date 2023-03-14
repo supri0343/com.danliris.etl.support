@@ -47,9 +47,6 @@ namespace UploadPB
             req.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
             var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
-            var adapter = new BeacukaiTemp(connectionString);
-
-            //identityService.Username = User.Claims.Single(p => p.Type.Equals("username")).Value;
 
 
             const string EXTENSION = ".xlsx";
