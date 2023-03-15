@@ -1,32 +1,27 @@
 using System;
 using System.Linq;
-using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using UploadPB.Models;
-using UploadPB.ViewModels;
-using UploadPB.Services.Interfaces;
-using UploadPB.DBAdapters.BeacukaiTemp;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace UploadPB
 {
-    public class GetandPostTemporary
+    public class GetTemporary
     {
-        public IGetandPostTemporary _gettemp;
+  
         public IServiceProvider serviceProvider;
         private readonly SupportDbContext context;
         private readonly DbSet<BeacukaiTemporaryModel> dbSet;
 
-        public GetandPostTemporary(IGetandPostTemporary gettempp, SupportDbContext context)
+        public GetTemporary( SupportDbContext context)
         {
-            _gettemp = gettempp;
+     
             this.context = context;
             this.dbSet = context.Set<BeacukaiTemporaryModel>();
         }

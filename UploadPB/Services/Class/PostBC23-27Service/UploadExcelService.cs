@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading.Tasks;
-using UploadPB.Services.Interfaces;
+using UploadPB.Services.Interfaces.IPostBC23;
 using UploadPB.Models;
 using UploadPB.Models.BCTemp;
 using UploadPB.Tools;
@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 //using Com.Danliris.ETL.Service.DBAdapters.DyeingAdapters;
 //using Com.Danliris.ETL.Service.ExcelModels.DashboardDyeingModels;
 
-namespace UploadPB.Services.Class
+namespace UploadPB.Services.Class.IPostBC23
 {
     public class UploadExcelService : IUploadExcel
     {
@@ -327,7 +327,8 @@ namespace UploadPB.Services.Class
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 9]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 8]),
-                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10])
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
+                              0
                             ));
                     }
                 }
