@@ -35,7 +35,7 @@ namespace UploadPB.Services.Class
 
         }
 
-        public async Task<int> PostBeacukai(List<TemporaryViewModel> data)
+        public async Task<int> PostBeacukai(List<TemporaryViewModel> data,string Username)
         {
             int Created = 0;
             using (var transaction = this.context.Database.BeginTransaction())
@@ -121,7 +121,7 @@ namespace UploadPB.Services.Class
                                     Sat = a.Sat,
                                     KodeSupplier = a.KodeSupplier,
                                     TglDatang = item.TglDatang,
-                                    CreatedBy = null,
+                                    CreatedBy = Username,
                                     Vendor = a.Vendor,
                                     Hari = DateTime.Today
                                 };
