@@ -18,7 +18,7 @@ using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 using UploadPB.Services.Interfaces.IPostBC23;
 
-namespace UploadPB.Services.Class
+namespace UploadPB.Services.Class.Post23
 {
     public class PostBeacukaiService : IPostBeacukai
     {
@@ -58,6 +58,7 @@ namespace UploadPB.Services.Class
                         id = await GenerateNo();
                         if (!existAjuBC.Contains(item.NoAju))
                         {
+                          
                             var ver = context.BeacukaiTemporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
 
                             var index = 1;

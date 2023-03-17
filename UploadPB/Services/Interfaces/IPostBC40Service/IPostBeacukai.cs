@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UploadPB.ViewModels;
 
-namespace UploadPB.Services.Interfaces.IPostBC40Service
+namespace UploadPB.Services.Interfaces.Post40
 {
     public interface IPostBeacukai
     {

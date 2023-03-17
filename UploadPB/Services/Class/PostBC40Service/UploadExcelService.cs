@@ -14,21 +14,21 @@ using UploadPB.ViewModels;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 using UploadPB.Services.Interfaces.IPostBC40Service;
-
+using UploadPB.Models.Temporary;
 
 namespace UploadPB.Services.Class.PostBC40Service
 {
     public class UploadExcelService : IUploadExcel
     {
         private readonly SupportDbContext context;
-        private readonly DbSet<BeacukaiTemporaryModel> dbSet;
+        private readonly DbSet<Beacukai40Temporary> dbSet;
 
         ConverterChecker converterChecker = new ConverterChecker();
         
         public UploadExcelService(IServiceProvider provider, SupportDbContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<BeacukaiTemporaryModel>();
+            this.dbSet = context.Set<Beacukai40Temporary>();
         }
 
         public async Task<int> Upload(ExcelWorksheets sheet)
@@ -134,8 +134,8 @@ namespace UploadPB.Services.Class.PostBC40Service
                     }
 
                     //delete all temporaray data
-                    var itemtoDelete = context.Set<BeacukaiTemporaryModel>();
-                    context.BeacukaiTemporaries.RemoveRange(itemtoDelete);
+                    var itemtoDelete = context.Set<Beacukai40Temporary>();
+                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);
                     context.SaveChanges();
                     transaction.Commit();
 
@@ -162,7 +162,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                     long index = 1;
                     foreach(var a in data)
                     {
-                        BeacukaiTemporaryModel beacukaiTemporaryModel = new BeacukaiTemporaryModel
+                        Beacukai40Temporary beacukaiTemporaryModel = new Beacukai40Temporary
                         {
                             ID = index++,
                             BCNo = a.BCNo,
@@ -177,7 +177,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                             NamaSupplier = a.NamaSupplier,
                             Vendor = a.Vendor,
                             TglBCNO = a.TglBCNO,
-                            Valutta = a.Valuta,
+                            Valuta = a.Valuta,
                             JenisBC = a.JenisBC,
                             JumlahBarang = a.JumlahBarang,
                             Sat = a.Sat,
@@ -294,7 +294,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),//NoAju
                             "",//NamaSupplier
                             converterChecker.GeneratePureDateTime(sheet.Cells[rowIndex, 95]),//TglBCNO
-                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 87]),//Valuta
+                            "IDR",//Valuta
                             converterChecker.GenerateValueStringBC(sheet.Cells[rowIndex, 2]),//JenisBC
                             0,//JumlahBarang
                             "",//KodeSupplier

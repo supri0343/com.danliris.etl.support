@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore;
 //using Com.Danliris.ETL.Service.DBAdapters.DyeingAdapters;
 //using Com.Danliris.ETL.Service.ExcelModels.DashboardDyeingModels;
 
-namespace UploadPB.Services.Class.IPostBC23
+namespace UploadPB.Services.Class.PostBC23
 {
     public class UploadExcelService : IUploadExcel
     {
