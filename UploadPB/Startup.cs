@@ -1,20 +1,10 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using UploadPB.Models;
-using UploadPB.Models.BCTemp;
-using UploadPB.Services;
 using UploadPB.Services.Class;
-using UploadPB.Services.Interfaces;
-using UploadPB.DBAdapters;
-using UploadPB.DBAdapters.Insert;
-using UploadPB.DBAdapters.BeacukaiTemp;
 using UploadPB.SupporttDbContext;
-//using Microsoft.Extensions.Http;
-using Microsoft.Azure.Functions.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 [assembly: FunctionsStartup(typeof(UploadPB.Startup))]
 namespace UploadPB
@@ -51,18 +41,21 @@ namespace UploadPB
 
             builder.Services.AddScoped<IdentityService>();
 
-            builder.Services
-                .AddTransient<IDokumenHeaderAdapter, DokumenHeaderAdapter>()
-                .AddTransient<IBarangAdapter, BarangAdapter>()
-                .AddTransient<IDokumenPelengkapAdapter, DokumenPelengkapAdapter>()
-                .AddTransient<IUploadExcel, UploadExcelService>();
+            //builder.Services
+            //    .AddTransient<IDokumenHeaderAdapter, DokumenHeaderAdapter>()
+            //    .AddTransient<IBarangAdapter, BarangAdapter>()
+            //    .AddTransient<IDokumenPelengkapAdapter, DokumenPelengkapAdapter>()
+                
+
+            //builder.Services
+            //    .AddTransient<IBeacukaiTemp, BeacukaiTemp>();
+         
 
             builder.Services
-                .AddTransient<IBeacukaiTemp, BeacukaiTemp>()
-                .AddTransient<IGetandPostTemporary, GetandPostTemporaryService>();
-
-            builder.Services
-                .AddTransient<IPostBeacukai, PostBeacukaiService>();
+                .AddTransient<Services.Interfaces.IPostBC23.IPostBeacukai, Services.Class.Post23.PostBeacukaiService>()
+                .AddTransient<Services.Interfaces.Post40.IPostBeacukai, Services.Class.Post40.PostBeacukaiService>()
+                .AddTransient<Services.Interfaces.IPostBC23.IUploadExcel, Services.Class.PostBC23.UploadExcelService>()
+                .AddTransient<Services.Interfaces.IPostBC40Service.IUploadExcel, Services.Class.PostBC40Service.UploadExcelService>();
         }
     }
 }

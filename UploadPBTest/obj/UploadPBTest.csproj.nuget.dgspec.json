@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {}
+    "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {
+    "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
         "projectName": "UploadPBTest",
-        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\UploadPBTest.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPBTest\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
-                "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj"
+              "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
+                "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj"
               }
             }
           }
@@ -88,17 +88,17 @@
         }
       }
     },
-    "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
+    "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
         "projectName": "UploadPB",
-        "projectPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\UploadPB.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Documents\\GitHub\\com.danliris.etl.support\\UploadPB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -139,6 +139,22 @@
             "Microsoft.Azure.Functions.Extensions": {
               "target": "Package",
               "version": "[1.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.1, )"
             },
             "Microsoft.NET.Sdk.Functions": {
               "target": "Package",
