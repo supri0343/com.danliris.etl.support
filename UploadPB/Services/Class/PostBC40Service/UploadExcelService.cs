@@ -22,6 +22,7 @@ namespace UploadPB.Services.Class.PostBC40Service
     {
         private readonly SupportDbContext context;
         private readonly DbSet<Beacukai40Temporary> dbSet;
+        private readonly DbSet<BeacukaiDocumentsModel> beacukaiDocuments;
 
         ConverterChecker converterChecker = new ConverterChecker();
         
@@ -29,6 +30,7 @@ namespace UploadPB.Services.Class.PostBC40Service
         {
             this.context = context;
             this.dbSet = context.Set<Beacukai40Temporary>();
+            this.beacukaiDocuments = context.Set<BeacukaiDocumentsModel>();
         }
 
         public async Task<int> Upload(ExcelWorksheets sheet)
@@ -111,6 +113,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                     var querydokumen = (from a in ListHeader
                                         join b in ListDokument on a.NoAju equals b.NoAju
                                         join c in ListEntitas on a.NoAju equals c.NoAju
+                                        join d in beacukaiDocuments on b.JenisDokumen equals d.Code.ToString()
                                         select new TemporaryViewModel
                                         {
                                             ID = 0,
@@ -122,7 +125,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                                             TglBCNO = a.TglBCNO,
                                             Valuta = a.Valuta,
                                             JenisBC = a.JenisBC,
-                                            JenisDokumen = b.JenisDokumen,
+                                            JenisDokumen = d.Name,
                                             NomorDokumen = b.NomorDokumen,
                                             TanggalDokumen = b.TanggalDokumen,
                                             JumlahBarang = ListBarang.Where(x => x.NoAju == a.NoAju).Count()
@@ -331,7 +334,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 11]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
-                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 27])
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 34])
                             ));
                     }
                 }
