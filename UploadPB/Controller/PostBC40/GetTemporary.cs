@@ -10,6 +10,8 @@ using UploadPB.Models;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 using UploadPB.Models.Temporary;
+using System.Collections.Generic;
+using UploadPB.ViewModels;
 
 namespace UploadPB.PostBC40
 {
@@ -18,31 +20,49 @@ namespace UploadPB.PostBC40
   
         public IServiceProvider serviceProvider;
         private readonly SupportDbContext context;
-        private readonly DbSet<Beacukai40Temporary> dbSet;
+        private readonly DbSet<Beacukai40Temporary> dbSet40;
+        private readonly DbSet<Beacukai23Temporary> dbSet23;
 
         public GetTemporary( SupportDbContext context)
         {
      
             this.context = context;
-            this.dbSet = context.Set<Beacukai40Temporary>();
+            this.dbSet40 = context.Set<Beacukai40Temporary>();
+            this.dbSet23 = context.Set<Beacukai23Temporary>();
         }
 
-        [FunctionName("GetTemporary40")]
+        [FunctionName("GetTemporarys")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
             req.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            req.Query.TryGetValue("type", out Microsoft.Extensions.Primitives.StringValues type);
 
-            var result = this.dbSet.Select(x => new 
+            var result = new List<TemporaryToViewModel>();
+            if (type == "40")
             {
-              
-                NoAju = x.NoAju,
-                BCNo = x.BCNo,
-                TglBCNO = x.TglBCNO,
-                NamaSupplier = x.NamaSupplier
-            }).Distinct().ToList().OrderBy(x =>x.NoAju);
+                result = this.dbSet40.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }else if(type == "23")
+            {
+                result = this.dbSet23.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }
+
 
             if (result != null)
             {

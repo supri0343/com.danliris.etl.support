@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace UploadPB.Models.Temporary
 {
+    [Table("BEACUKAI23_TEMPORARY")]
     public class Beacukai23Temporary
     {
         public long ID { get; set; }
@@ -23,7 +26,7 @@ namespace UploadPB.Models.Temporary
         public string NamaSupplier { get; set; }
         public DateTime? TglDaftarAju { get; set; }
         public DateTimeOffset? TglBCNO { get; set; }
-        public string Valutta { get; set; }
+        public string Valuta { get; set; }
         public DateTime? Hari { get; set; }
         public string JenisBC { get; set; }
         public string IDHeader { get; set; }

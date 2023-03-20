@@ -5,37 +5,25 @@ using Microsoft.Extensions.DependencyInjection;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading.Tasks;
-using UploadPB.Services.Interfaces;
 using UploadPB.Models;
 using UploadPB.ViewModels;
-using UploadPB.Models.BCTemp;
 using UploadPB.Tools;
-using Microsoft.AspNetCore.Mvc;
-using UploadPB.DBAdapters;
-using UploadPB.DBAdapters.BeacukaiTemp;
-using UploadPB.DBAdapters.GetTemporary;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
-using UploadPB.Services.Interfaces.Post40;
 using UploadPB.Models.Temporary;
+using UploadPB.Services.Interfaces.IPostBC23Service;
 
-
-namespace UploadPB.Services.Class.Post40
+namespace UploadPB.Services.Class.PostBC23Service
 {
-    public class PostBeacukaiService : IPostBeacukai40
+    public class PostBeacukaiService : IPostBeacukai23
     {
-        static string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
-    
         private readonly SupportDbContext context;
         private readonly DbSet<Beacukai_Temp> dbSet;
         GenerateBPNo GenerateBPNo = new GenerateBPNo();
         public PostBeacukaiService(IServiceProvider provider, SupportDbContext context)
         {
-          
-            //beacukaiTemp = provider.GetService<IBeacukaiTemp>();
             this.context = context;
             this.dbSet = context.Set<Beacukai_Temp>();
-
         }
 
         public async Task<int> PostBeacukai(List<TemporaryViewModel> data,string Username)
@@ -61,7 +49,7 @@ namespace UploadPB.Services.Class.Post40
                         if (!existAjuBC.Contains(item.NoAju))
                         {
                           
-                            var ver = context.beacukai40Temporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
+                            var ver = context.beacukai23Temporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
 
                             var index = 1;
                             foreach (var a in ver)
@@ -118,8 +106,8 @@ namespace UploadPB.Services.Class.Post40
                     }
 
                     //deleteTemporary
-                    var itemtoDelete = context.Set<Beacukai40Temporary>();
-                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);       
+                    var itemtoDelete = context.Set<Beacukai23Temporary>();
+                    context.beacukai23Temporaries.RemoveRange(itemtoDelete);       
 
                     //ApllyAllChange
                     Created = await context.SaveChangesAsync();

@@ -10,23 +10,24 @@ using System.Collections.Generic;
 using UploadPB.Models;
 using UploadPB.ViewModels;
 using UploadPB.Services.Interfaces.Post40;
-using UploadPB.Services.Class;
 using Newtonsoft.Json;
 using System.Linq;
-
+using UploadPB.Services.Interfaces.IPostBC23Service;
 
 namespace UploadPB.Controller.Post40
 {
     public class PostBeacukaiController : ControllerBase
     {
-        public IPostBeacukai _postBeacukai;
+        public IPostBeacukai40 _postBeacukai40;
+        public IPostBeacukai23 _postBeacukai23;
 
-        public PostBeacukaiController(IPostBeacukai postBeacukai, IServiceProvider serviceProvider)
+        public PostBeacukaiController(IPostBeacukai40 postBeacukai40, IPostBeacukai23 postBeacukai23, IServiceProvider serviceProvider)
         {
-            _postBeacukai = postBeacukai;
+            _postBeacukai40 = postBeacukai40;
+            _postBeacukai23 = postBeacukai23;
         }
 
-        [FunctionName("PostBeacukai40")]
+        [FunctionName("PostBeacukaies")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post","put", Route = null)] HttpRequest req,
             ILogger log)
@@ -37,17 +38,26 @@ namespace UploadPB.Controller.Post40
             var Username = req.Headers["username"].FirstOrDefault();
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
-
-                List<TemporaryViewModel> Data = JsonConvert.DeserializeObject<List<TemporaryViewModel>>(content);
-
-                try
+            List<TemporaryViewModel> Data = JsonConvert.DeserializeObject<List<TemporaryViewModel>>(content);
+            try
+            {
+                foreach (var a in Data)
                 {
-                    await _postBeacukai.PostBeacukai(Data, Username);
+                    if (a.Type == "40")
+                    {
+                        await _postBeacukai40.PostBeacukai(Data, Username);
+                    }
+                    else if (a.Type == "23")
+                    {
+                        await _postBeacukai23.PostBeacukai(Data, Username);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return new BadRequestObjectResult(new ResponseFailed(ex.Message));
-                }      
+
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new ResponseFailed(ex.Message));
+            }      
             
             return new OkObjectResult(new ResponseSuccess("Berhasil Menyimpan Data Temporary"));
         }
