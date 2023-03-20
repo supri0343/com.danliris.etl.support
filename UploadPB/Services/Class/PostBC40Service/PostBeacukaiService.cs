@@ -16,19 +16,21 @@ using UploadPB.DBAdapters.BeacukaiTemp;
 using UploadPB.DBAdapters.GetTemporary;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
+using UploadPB.Services.Interfaces.Post40;
+using UploadPB.Models.Temporary;
 
-namespace UploadPB.Services.Class
+namespace UploadPB.Services.Class.Post40
 {
     public class PostBeacukaiService : IPostBeacukai
     {
         static string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
-        public IGetandPostTemporary _getandPostTemporary;
+    
         private readonly SupportDbContext context;
         private readonly DbSet<Beacukai_Temp> dbSet;
 
-        public PostBeacukaiService(IServiceProvider provider, IGetandPostTemporary getandPostTemporary, SupportDbContext context)
+        public PostBeacukaiService(IServiceProvider provider, SupportDbContext context)
         {
-            _getandPostTemporary = getandPostTemporary;
+          
             //beacukaiTemp = provider.GetService<IBeacukaiTemp>();
             this.context = context;
             this.dbSet = context.Set<Beacukai_Temp>();
@@ -51,42 +53,16 @@ namespace UploadPB.Services.Class
                     List<string> ajuToError = new List<string>();
                     List<string> ajuToDeleteTemporary = new List<string>();
 
-                    //var adapter = new BeacukaiAdapter(connectionString);
-                    //var adapter2 = new BeacukaiTemp(connectionString);
-                    //var databc = await adapter.GetAju();
-                    //var lastno = await adapter.GetLastNo();
-
-                    //foreach (var item in data)
-                    //{
-                    //    if (!databc.Contains(item.NoAju))
-                    //    {
-                    //        item.BCId = await GenerateNo();
-                    //        item.Hari = DateTime.Today;
-
-                    //    }
-                    //    else
-                    //    {
-                    //        //new BadRequestObjectResult(new ResponseFailed($"Gagal menyimpan data, No Aju - {item.NoAju} - sudah ada di database "));
-                    //        throw new Exception($"Gagal menyimpan data, No Aju - {item.NoAju} - sudah ada di database.");
-                    //    }
-
-                    //}
                     var id = "";
                     foreach (var item in data)
                     {
-                        //var ver = await adapter.GetDataBC(item.NoAju);
                         id = await GenerateNo();
                         if (!existAjuBC.Contains(item.NoAju))
                         {
-                            //item.BCId = await GenerateNo();
-                            //item.Hari = DateTime.Today;
-
-                            var ver = context.BeacukaiTemporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
+                          
+                            var ver = context.beacukai40Temporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
 
                             var index = 1;
-
-                            //var nulll = null;
-
                             foreach (var a in ver)
                             {
                                 DateTime TglBC = DateTime.Parse(a.TglBCNO.ToString());
@@ -111,7 +87,7 @@ namespace UploadPB.Services.Class
                                     NamaSupplier = a.NamaSupplier,
                                     TglDaftarAju = a.TglDaftarAju,
                                     TglBCNO = a.TglBCNO != null ? TglBC : nullll,
-                                    Valuta = a.Valutta,
+                                    Valuta = a.Valuta,
                                     JenisBC = a.JenisBC,
                                     IDHeader = Convert.ToInt32(a.IDHeader),
                                     JenisDokumen = a.JenisDokumen,
@@ -138,26 +114,15 @@ namespace UploadPB.Services.Class
                             ajuToError.Add(item.NoAju);
                         }
 
-
                     }
 
                     //deleteTemporaryForSelectedData
-                    var itemtoDelete = context.Set<BeacukaiTemporaryModel>().Where(x => ajuToDeleteTemporary.Contains(x.NoAju));
-                    context.BeacukaiTemporaries.RemoveRange(itemtoDelete);
-                    context.SaveChanges();
-                    //var itemtoDelete = context.Set<BeacukaiTemporaryModel>();
-                    //context.BeacukaiTemporaries.RemoveRange(itemtoDelete);
-                    //context.SaveChanges();
+                    var itemtoDelete = context.Set<Beacukai40Temporary>().Where(x => ajuToDeleteTemporary.Contains(x.NoAju));
+                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);       
 
                     //ApllyAllChange
                     Created = await context.SaveChangesAsync();
                     transaction.Commit();
-
-                    //await adapter.DeleteBeacukaiTemporaryNotAll(data);
-                    //await adapter2.Insert(dataToPost);
-
-                    //await adapter.UpdateTemp(data);
-
 
                     if (ajuToError.Count > 0)
                     {
@@ -173,17 +138,6 @@ namespace UploadPB.Services.Class
             }
 
             return Created;
-
-            //try
-            //{
-            //    //var noaju = data.Select(x => x.NoAju).Distinct();
-            //    await adapter.PostBC(data);
-            //    await adapter.DeleteBeacukaiTemporary();
-            //}
-            //catch (Exception ex)
-            //{
-            //    new BadRequestObjectResult(new ResponseFailed(ex.Message));
-            //}
             
         }
 
@@ -205,7 +159,7 @@ namespace UploadPB.Services.Class
             string no = string.Concat(bp, year, mounth, day, hour, minute, sec, msec);
 
             return no;
-            //Index++;
+            
         }
 
 

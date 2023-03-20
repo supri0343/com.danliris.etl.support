@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using UploadPB.Models;
+using UploadPB.Models.Temporary;
 
 namespace UploadPB.SupporttDbContext
 {
     public class SupportDbContext : DbContext
     {
         public DbSet<BeacukaiTemporaryModel> BeacukaiTemporaries { get; set; }
+        public DbSet<Beacukai40Temporary> beacukai40Temporaries { get; set; }
         public DbSet<Beacukai_Temp> BEACUKAI_TEMP { get; set; }
+        public DbSet<BeacukaiDocumentsModel> BeacukaiDocuments { get; set; }
+      
 
         public SupportDbContext(DbContextOptions<SupportDbContext> options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Beacukai40Temporary>(entity => { entity.ToTable("BEACUKAI40_TEMPORARY"); });
+            modelBuilder.Entity<BeacukaiDocumentsModel>(entity => { entity.ToTable("BEACUKAI_DOCUMENTS"); });
+
             modelBuilder.Entity<BeacukaiTemporaryModel>(entity =>
             {
                 //entity.HasNoKey();
