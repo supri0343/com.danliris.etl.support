@@ -12,19 +12,26 @@ using UploadPB.Services.Interfaces.IPostBC40Service;
 using UploadPB.Services.Class;
 using UploadPB.Services.Interfaces.IPostBC23Service;
 using UploadPB.Tools;
+using UploadPB.Services.Interfaces.IPostBC261Service;
+using Microsoft.Extensions.DependencyInjection;
+using UploadPB.Services.Interfaces.IPostBC262Service;
 
-namespace UploadPB.Controller.PostBC40
+namespace UploadPB.Controller.PostBC
 {
     public class Upload
     {
         public IUploadExcel40 _uploadExcel40;
         public IUploadExcel23 _uploadExcel23;
+        public IUploadExcel261 _uploadExcel261;
+        public IUploadExcel262 _uploadExcel262;
         ConverterChecker converterChecker = new ConverterChecker();
 
-        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23)
+        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262)
         {
             _uploadExcel40 = uploadExcel40;
             _uploadExcel23 = uploadExcel23;
+            _uploadExcel261 = uploadExcel261;
+            _uploadExcel262 = uploadExcel262;
         }
 
         [FunctionName("UploadBC")]
@@ -64,13 +71,20 @@ namespace UploadPB.Controller.PostBC40
                         {
                             if (type == "40" && typeFromSheet == "40")
                             {
-                                var data = await _uploadExcel40.Upload(sheet);
+                                await _uploadExcel40.Upload(sheet);
                             }
                             else if (type == "23" && typeFromSheet == "23")
                             {
-                                var data = await _uploadExcel23.Upload(sheet);
+                                await _uploadExcel23.Upload(sheet);
                             }
-
+                            else if (type == "261" && typeFromSheet == "261")
+                            {
+                                await _uploadExcel261.Upload(sheet);
+                            }
+                            else if (type == "262" && typeFromSheet == "262")
+                            {
+                                await _uploadExcel262.Upload(sheet);
+                            }
                             else if (type != typeFromSheet)
                             {
                                 throw new Exception("Harap Upload File Sesuai Dengan Tipe BC yang Dipilih");

@@ -10,11 +10,13 @@ namespace UploadPB.SupporttDbContext
     public class SupportDbContext : DbContext
     {
         public DbSet<BeacukaiTemporaryModel> BeacukaiTemporaries { get; set; }
-        public DbSet<Beacukai40Temporary> beacukai40Temporaries { get; set; }
-        public DbSet<Beacukai23Temporary>  beacukai23Temporaries { get; set; }
         public DbSet<Beacukai_Temp> BEACUKAI_TEMP { get; set; }
         public DbSet<BeacukaiDocumentsModel> BeacukaiDocuments { get; set; }
-      
+        public DbSet<Beacukai40Temporary> beacukai40Temporaries { get; set; }
+        public DbSet<Beacukai23Temporary> beacukai23Temporaries { get; set; }
+        public DbSet<Beacukai261Temporary> beacukai261Temporaries { get; set; }
+        public DbSet<Beacukai262Temporary> beacukai262Temporaries { get; set; }
+
 
         public SupportDbContext(DbContextOptions<SupportDbContext> options) : base(options)
         {

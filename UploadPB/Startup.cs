@@ -4,7 +4,8 @@ using UploadPB.Services.Class;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
-
+using UploadPB.Services.Interfaces.IPostBC261Service;
+using UploadPB.Services.Class.PostBC261Service;
 
 [assembly: FunctionsStartup(typeof(UploadPB.Startup))]
 namespace UploadPB
@@ -54,10 +55,15 @@ namespace UploadPB
             builder.Services
                 .AddTransient<Services.Interfaces.IPostBC23.IPostBeacukai, Services.Class.Post23.PostBeacukaiService>()
                 .AddTransient<Services.Interfaces.Post40.IPostBeacukai40, Services.Class.Post40.PostBeacukaiService>()
-                 .AddTransient<Services.Interfaces.IPostBC23Service.IPostBeacukai23, Services.Class.PostBC23Service.PostBeacukaiService>()
+                .AddTransient<Services.Interfaces.IPostBC23Service.IPostBeacukai23, Services.Class.PostBC23Service.PostBeacukaiService>()
+                .AddTransient<Services.Interfaces.IPostBC261Service.IPostBeacukai261, Services.Class.PostBC261Service.PostBeacukaiService>()
+                 .AddTransient<Services.Interfaces.IPostBC262Service.IPostBeacukai262, Services.Class.PostBC262Service.PostBeacukaiService>()
+
                 .AddTransient<Services.Interfaces.IPostBC23.IUploadExcel, Services.Class.PostBC23.UploadExcelService>()
                 .AddTransient<Services.Interfaces.IPostBC40Service.IUploadExcel40, Services.Class.PostBC40Service.UploadExcelService>()
-                .AddTransient<Services.Interfaces.IPostBC23Service.IUploadExcel23, Services.Class.PostBC23Service.UploadExcelService>();
+                .AddTransient<Services.Interfaces.IPostBC261Service.IUploadExcel261, Services.Class.PostBC261Service.UploadExcelService>()
+                .AddTransient<Services.Interfaces.IPostBC23Service.IUploadExcel23, Services.Class.PostBC23Service.UploadExcelService>()
+                .AddTransient<Services.Interfaces.IPostBC262Service.IUploadExcel262, Services.Class.PostBC262Service.UploadExcelService>();
         }
     }
 }

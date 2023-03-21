@@ -13,7 +13,7 @@ using UploadPB.Models.Temporary;
 using System.Collections.Generic;
 using UploadPB.ViewModels;
 
-namespace UploadPB.PostBC40
+namespace UploadPB.PostBC
 {
     public class GetTemporary
     {
@@ -21,7 +21,9 @@ namespace UploadPB.PostBC40
         public IServiceProvider serviceProvider;
         private readonly SupportDbContext context;
         private readonly DbSet<Beacukai40Temporary> dbSet40;
+        private readonly DbSet<Beacukai261Temporary> dbSet261;
         private readonly DbSet<Beacukai23Temporary> dbSet23;
+        private readonly DbSet<Beacukai262Temporary> dbSet262;
 
         public GetTemporary( SupportDbContext context)
         {
@@ -29,6 +31,8 @@ namespace UploadPB.PostBC40
             this.context = context;
             this.dbSet40 = context.Set<Beacukai40Temporary>();
             this.dbSet23 = context.Set<Beacukai23Temporary>();
+            this.dbSet261 = context.Set<Beacukai261Temporary>();
+            this.dbSet262 = context.Set<Beacukai262Temporary>();
         }
 
         [FunctionName("GetTemporarys")]
@@ -54,6 +58,28 @@ namespace UploadPB.PostBC40
             }else if(type == "23")
             {
                 result = this.dbSet23.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }
+            else if (type == "261")
+            {
+                result = this.dbSet261.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }
+            else if (type == "262")
+            {
+                result = this.dbSet262.Select(x => new TemporaryToViewModel
                 {
                     NoAju = x.NoAju,
                     BCNo = x.BCNo,
