@@ -36,6 +36,7 @@ namespace UploadPB.ViewModels
         public DateTime? TglDatang { get; set; }
         public string CreatedBy { get; set; }
         public string Vendor { get; set; }
+        public string Type { get; set; }
 
     }
 }
