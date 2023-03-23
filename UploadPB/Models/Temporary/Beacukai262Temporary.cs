@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UploadPB.Models.Temporary
 {
-    [Table("BEACUKAI23_TEMPORARY")]
-    public class Beacukai23Temporary
+    [Table("BEACUKAI262_TEMPORARY")]
+    public class Beacukai262Temporary
     {
         public long ID { get; set; }
         public string BCId { get; set; }

@@ -13,15 +13,15 @@ using UploadPB.DBAdapters.Insert;
 using UploadPB.ViewModels;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
-using UploadPB.Services.Interfaces.IPostBC40Service;
 using UploadPB.Models.Temporary;
+using UploadPB.Services.Interfaces.IPostBC262Service;
 
-namespace UploadPB.Services.Class.PostBC40Service
+namespace UploadPB.Services.Class.PostBC262Service
 {
-    public class UploadExcelService : IUploadExcel40
+    public class UploadExcelService : IUploadExcel262
     {
         private readonly SupportDbContext context;
-        private readonly DbSet<Beacukai40Temporary> dbSet;
+        private readonly DbSet<Beacukai262Temporary> dbSet;
         private readonly DbSet<BeacukaiDocumentsModel> beacukaiDocuments;
 
         ConverterChecker converterChecker = new ConverterChecker();
@@ -29,7 +29,7 @@ namespace UploadPB.Services.Class.PostBC40Service
         public UploadExcelService(IServiceProvider provider, SupportDbContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<Beacukai40Temporary>();
+            this.dbSet = context.Set<Beacukai262Temporary>();
             this.beacukaiDocuments = context.Set<BeacukaiDocumentsModel>();
         }
 
@@ -54,23 +54,18 @@ namespace UploadPB.Services.Class.PostBC40Service
                         if (sheet[i].Name.ToUpper() == "HEADER")
                         {
                             ListHeader = UploadHeader(sheet, data);
-                          
                         }
-
                         if (sheet[i].Name.ToUpper() == "BARANG")
                         {
                             ListBarang = UploadBarang(sheet, data);
-                           
                         }
                         if (sheet[i].Name.ToUpper() == "DOKUMEN")
                         {
                             ListDokument = UploadDokumenPelengkap(sheet, data);
-                          
                         }
                         if (sheet[i].Name.ToUpper() == "ENTITAS")
                         {
                             ListEntitas = UploadEntitas(sheet, data);
-                            
                         }
                         data++;
                     }
@@ -137,8 +132,8 @@ namespace UploadPB.Services.Class.PostBC40Service
                     }
 
                     //delete all temporaray data
-                    var itemtoDelete = context.Set<Beacukai40Temporary>();
-                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);
+                    var itemtoDelete = context.Set<Beacukai262Temporary>();
+                    context.beacukai262Temporaries.RemoveRange(itemtoDelete);
                     context.SaveChanges();
                     transaction.Commit();
 
@@ -165,7 +160,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                     long index = 1;
                     foreach(var a in data)
                     {
-                        Beacukai40Temporary beacukaiTemporaryModel = new Beacukai40Temporary
+                        Beacukai262Temporary beacukaiTemporaryModel = new Beacukai262Temporary
                         {
                             ID = index++,
                             BCNo = a.BCNo,
@@ -227,18 +222,18 @@ namespace UploadPB.Services.Class.PostBC40Service
                         DataEntitas.NoAju = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]);
                       
                     }
-                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 7)
-                    {
-                       Vendor = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
-                    }
+                    //if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 8)
+                    //{
+                    //    Vendor = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
+                    //}
                     listData.Add(DataEntitas);
                 }
 
-                foreach(var a in listData)
-                {
-                    a.Vendor = Vendor;
-                }
-                
+                //foreach (var a in listData)
+                //{
+                //    a.Vendor = Vendor;
+                //}
+
 
                 return listData;
             }
@@ -297,14 +292,15 @@ namespace UploadPB.Services.Class.PostBC40Service
                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),//NoAju
                             "",//NamaSupplier
                             converterChecker.GeneratePureDateTime(sheet.Cells[rowIndex, 95]),//TglBCNO
-                            "IDR",//Valuta
+                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 87]),//Valuta
                             converterChecker.GenerateValueStringBC(sheet.Cells[rowIndex, 2]),//JenisBC
                             0,//JumlahBarang
                             "",//KodeSupplier
-                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 40])//Vendor
+                            ""//Vendor
                             ));
                     }
                 }
+                return listData;
             }
 
 
@@ -313,7 +309,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                 throw new Exception($"Gagal memproses Sheet Header Dokumen pada baris ke-{rowIndex} - {ex.Message}");
             }
            
-            return listData;
+            
         }
 
         public List<BarangTemp> UploadBarang(ExcelWorksheets excel, int data)
@@ -334,17 +330,18 @@ namespace UploadPB.Services.Class.PostBC40Service
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 11]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
-                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 34])
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 27])
                             ));
                     }
                 }
+                return listData;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
             }
            
-            return listData;
+           
 
         }
     }

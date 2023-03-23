@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using UploadPB.ViewModels;
 using UploadPB.Services.Class.Post40;
 
-namespace UploadPB.Services.Interfaces.IPostBC40Service
+namespace UploadPB.Services.Interfaces.IPostBC23Service
 {
-    public interface IUploadExcel40 : IBaseService
+    public interface IUploadExcel23 : IBaseService
     {
         Task<int> Upload(ExcelWorksheets sheet);
     }
