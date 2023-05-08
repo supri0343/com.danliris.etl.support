@@ -15,6 +15,7 @@ using System.Linq;
 using UploadPB.Services.Interfaces.IPostBC23Service;
 using UploadPB.Services.Interfaces.IPostBC261Service;
 using UploadPB.Services.Interfaces.IPostBC262Service;
+using UploadPB.Services.Interfaces.IPostBC30Service;
 
 namespace UploadPB.Controller.Post
 {
@@ -24,13 +25,15 @@ namespace UploadPB.Controller.Post
         public IPostBeacukai23 _postBeacukai23;
         public IPostBeacukai261 _postBeacukai261;
         public IPostBeacukai262 _postBeacukai262;
+        public IPostBeacukai30 _postBeacukai30;
 
-        public PostBeacukaiController(IPostBeacukai40 postBeacukai40, IPostBeacukai23 postBeacukai23, IPostBeacukai261 postBeacukai261, IPostBeacukai262 postBeacukai262)
+        public PostBeacukaiController(IPostBeacukai40 postBeacukai40, IPostBeacukai23 postBeacukai23, IPostBeacukai261 postBeacukai261, IPostBeacukai262 postBeacukai262, IPostBeacukai30 postBeacukai30)
         {
             _postBeacukai40 = postBeacukai40;
             _postBeacukai23 = postBeacukai23;
             _postBeacukai261 = postBeacukai261;
             _postBeacukai262 = postBeacukai262;
+            _postBeacukai30 = postBeacukai30;
         }
 
         [FunctionName("PostBeacukaies")]
@@ -64,6 +67,10 @@ namespace UploadPB.Controller.Post
                     else if (a.Type == "262")
                     {
                         await _postBeacukai262.PostBeacukai(Data, Username);
+                    }
+                    else if (a.Type == "30")
+                    {
+                        await _postBeacukai30.PostBeacukai(Data, Username);
                     }
                 }
 
