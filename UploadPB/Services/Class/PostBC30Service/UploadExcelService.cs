@@ -13,15 +13,15 @@ using UploadPB.DBAdapters.Insert;
 using UploadPB.ViewModels;
 using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
-using UploadPB.Services.Interfaces.IPostBC40Service;
 using UploadPB.Models.Temporary;
+using UploadPB.Services.Interfaces.IPostBC30Service;
 
-namespace UploadPB.Services.Class.PostBC40Service
+namespace UploadPB.Services.Class.PostBC30Service
 {
-    public class UploadExcelService : IUploadExcel40
+    public class UploadExcelService : IUploadExcel30
     {
         private readonly SupportDbContext context;
-        private readonly DbSet<Beacukai40Temporary> dbSet;
+        private readonly DbSet<Beacukai30HeaderTemporary> dbSet;
         private readonly DbSet<BeacukaiDocumentsModel> beacukaiDocuments;
 
         ConverterChecker converterChecker = new ConverterChecker();
@@ -29,7 +29,7 @@ namespace UploadPB.Services.Class.PostBC40Service
         public UploadExcelService(IServiceProvider provider, SupportDbContext context)
         {
             this.context = context;
-            this.dbSet = context.Set<Beacukai40Temporary>();
+            this.dbSet = context.Set<Beacukai30HeaderTemporary>();
             this.beacukaiDocuments = context.Set<BeacukaiDocumentsModel>();
         }
 
@@ -47,6 +47,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                     var ListBarang = new List<BarangTemp>();
                     var ListDokument = new List<DokumenPelengkapTemp>();
                     var ListEntitas= new List<EntitasTemp>();
+                    var ListKemasan = new List<KemasanTemp>();
 
                     var count = sheet.Count();
                     for (var i = 0; i < count; i++)
@@ -54,23 +55,22 @@ namespace UploadPB.Services.Class.PostBC40Service
                         if (sheet[i].Name.ToUpper() == "HEADER")
                         {
                             ListHeader = UploadHeader(sheet, data);
-                          
                         }
-
                         if (sheet[i].Name.ToUpper() == "BARANG")
                         {
                             ListBarang = UploadBarang(sheet, data);
-                           
                         }
                         if (sheet[i].Name.ToUpper() == "DOKUMEN")
                         {
                             ListDokument = UploadDokumenPelengkap(sheet, data);
-                          
                         }
                         if (sheet[i].Name.ToUpper() == "ENTITAS")
                         {
                             ListEntitas = UploadEntitas(sheet, data);
-                            
+                        }
+                        if (sheet[i].Name.ToUpper() == "KEMASAN")
+                        {
+                            ListKemasan = UploadKemasan(sheet, data);
                         }
                         data++;
                     }
@@ -84,66 +84,61 @@ namespace UploadPB.Services.Class.PostBC40Service
                         a.Vendor = DataEntitas.Vendor;
                     }
 
+                    var queryitem = (from a in ListHeader
+                                     join b in ListBarang on a.NoAju equals b.NoAju
+                                     select new Beacukai30ItemsTemporary
+                                     {
+                                         BCId="",
+                                         DetailBCId = "",
+                                         CAR = a.NoAju,
+                                         ItemCode = "-",
+                                         ItemName = b.Barang,
+                                         UnitQtyCode = "-",
+                                         Quantity = Convert.ToDouble(b.JumlahSatBarang),
+                                         Price = (decimal)b.CIF_Rupiah,
+                                         CurrencyCode = a.Valuta,
+                                         UomUnit = b.Sat,
+                                     }).ToList();
+
                     var queryheader = (from a in ListHeader
-                                       join b in ListBarang on a.NoAju equals b.NoAju
+                                       join b in ListKemasan on a.NoAju equals b.NoAju
                                        join c in ListEntitas on a.NoAju equals c.NoAju
-                                       select new TemporaryViewModel
+                                       join d in ListDokument on a.NoAju equals d.NoAju
+                                       select new Beacukai30HeaderTemporary
                                        {
-                                           ID = 0,
+                                           BCId="",
+                                           BCType = "BC 3.0",
                                            BCNo = a.BCNo,
-                                           Barang = b.Barang,
-                                           Bruto = a.Bruto,
-                                           CIF = a.CIF,
-                                           CIF_Rupiah = b.CIF_Rupiah,
-                                           JumlahSatBarang = b.JumlahSatBarang,
-                                           KodeBarang = b.KodeBarang,
-                                           Netto = a.Netto,
-                                           NoAju = b.NoAju,
-                                           NamaSupplier = c.NamaSupplier,
-                                           Vendor = c.Vendor,
-                                           TglBCNO = a.TglBCNO,
-                                           Valuta = a.Valuta,
-                                           JenisBC = a.JenisBC,
-                                           JumlahBarang = ListBarang.Where(x=> x.NoAju == a.NoAju).Count(),
-                                           Sat = b.Sat,
-                                           KodeSupplier = c.KodeSupplier,
-                                     
+                                           CAR = a.NoAju,
+                                           BCDate = a.TglBCNO.Value.DateTime,
+                                           ExpenditureNo = d.NomorDokumen,
+                                           ExpenditureDate = d.TanggalDokumen.Value.DateTime,
+                                           BuyerCode = "-",
+                                           BuyerName = a.NamaSupplier,
+                                           Vendor = a.NamaSupplier,
+                                           Netto = Convert.ToDouble(a.Netto),
+                                           Bruto = Convert.ToDouble(a.Bruto),
+                                           Pack = b.KodeKemasan,
+                                           //Items = queryitem
                                        }).ToList();
 
-                    var querydokumen = (from a in ListHeader
-                                        join b in ListDokument on a.NoAju equals b.NoAju
-                                        join c in ListEntitas on a.NoAju equals c.NoAju
-                                        join d in beacukaiDocuments on b.JenisDokumen equals d.Code.ToString()
-                                        select new TemporaryViewModel
-                                        {
-                                            ID = 0,
-                                            BCNo = a.BCNo,
-                                            Bruto = a.Bruto,
-                                            NoAju = b.NoAju,
-                                            NamaSupplier = c.NamaSupplier,
-                                            Vendor = c.Vendor,
-                                            TglBCNO = a.TglBCNO,
-                                            Valuta = a.Valuta,
-                                            JenisBC = a.JenisBC,
-                                            JenisDokumen = d.Name,
-                                            NomorDokumen = b.NomorDokumen,
-                                            TanggalDokumen = b.TanggalDokumen,
-                                            JumlahBarang = ListBarang.Where(x => x.NoAju == a.NoAju).Count()
-                                        }).ToList();
 
-                    foreach (var item in querydokumen)
-                    {
-                        queryheader.Add(item);
-                    }
+
+
 
                     //delete all temporaray data
-                    var itemtoDelete = context.Set<Beacukai40Temporary>();
-                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);
+                    var dataHeader = context.Set<Beacukai30HeaderTemporary>();
+                    context.beacukai30HeaderTemporaries.RemoveRange(dataHeader);
                     context.SaveChanges();
+
+                    var itemtoDelete = context.Set<Beacukai30ItemsTemporary>();
+                    context.Beacukai30ItemsTemporaries.RemoveRange(itemtoDelete);
+                    context.SaveChanges();
+
                     transaction.Commit();
 
-                    //UploadTemporaraydData
-                    Upload = await InsertToTemporary(queryheader);
+                //UploadTemporaraydData
+                Upload = await InsertToTemporary(queryheader,queryitem);
 
                 }
                 catch (Exception e)
@@ -151,11 +146,12 @@ namespace UploadPB.Services.Class.PostBC40Service
                     transaction.Rollback();
                     throw new Exception(e.Message);
                 }
-            }
+        }
             return Upload;
         }
 
-        public async Task<int> InsertToTemporary(List<TemporaryViewModel> data)
+
+        public async Task<int> InsertToTemporary(List<Beacukai30HeaderTemporary> data, List<Beacukai30ItemsTemporary> items)
         {
             int Created = 0;
             using (var transaction = this.context.Database.BeginTransaction())
@@ -165,33 +161,18 @@ namespace UploadPB.Services.Class.PostBC40Service
                     long index = 1;
                     foreach(var a in data)
                     {
-                        Beacukai40Temporary beacukaiTemporaryModel = new Beacukai40Temporary
-                        {
-                            ID = index++,
-                            BCNo = a.BCNo,
-                            Barang = a.Barang,
-                            Bruto = a.Bruto,
-                            CIF = a.CIF,
-                            CIF_Rupiah = a.CIF_Rupiah,
-                            JumlahSatBarang = a.JumlahSatBarang,
-                            KodeBarang = a.KodeBarang,
-                            Netto = a.Netto,
-                            NoAju = a.NoAju,
-                            NamaSupplier = a.NamaSupplier,
-                            Vendor = a.Vendor,
-                            TglBCNO = a.TglBCNO,
-                            Valuta = a.Valuta,
-                            JenisBC = a.JenisBC,
-                            JumlahBarang = a.JumlahBarang,
-                            Sat = a.Sat,
-                            KodeSupplier = a.KodeSupplier,
-                            JenisDokumen = a.JenisDokumen,
-                            NomorDokumen = a.NomorDokumen,
-                            TanggalDokumen = a.TanggalDokumen,
+                        a.BCId = index.ToString();
+                  
+                        index++;
+                        this.dbSet.Add(a);
+                    }
 
-                        };
-
-                        this.dbSet.Add(beacukaiTemporaryModel);
+                    long indexItem = 1;
+                    foreach (var item in items)
+                    {
+                        item.DetailBCId = index.ToString() + indexItem.ToString();
+                        indexItem++;
+                        context.Beacukai30ItemsTemporaries.Add(item);
                     }
 
                     Created = await context.SaveChangesAsync();
@@ -220,31 +201,32 @@ namespace UploadPB.Services.Class.PostBC40Service
                 for (rowIndex = 2; rowIndex <= totalRow; rowIndex++)
                 {
                     var DataEntitas = new EntitasTemp("","","","");
-                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 9) 
+                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 6) 
                     {
                         DataEntitas.NamaSupplier = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
                         DataEntitas.KodeSupplier = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]);
                         DataEntitas.NoAju = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]);
-                      
+                        DataEntitas.Vendor = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
+
                     }
-                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 7)
-                    {
-                       Vendor = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
-                    }
+                    //if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 2)
+                    //{
+                    //    Vendor = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
+                    //}
                     listData.Add(DataEntitas);
                 }
 
-                foreach(var a in listData)
-                {
-                    a.Vendor = Vendor;
-                }
-                
+                //foreach (var a in listData)
+                //{
+                //    a.Vendor = Vendor;
+                //}
+
 
                 return listData;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Gagal memproses Sheet Dokumen Pelengkap pada baris ke-{rowIndex} - {ex.Message}");
+                throw new Exception($"Gagal memproses Sheet Entitas pada baris ke-{rowIndex} - {ex.Message}");
             }
         }
 
@@ -256,7 +238,7 @@ namespace UploadPB.Services.Class.PostBC40Service
             int rowIndex = 0;
             try{
                 for (rowIndex = 2; rowIndex <= totalRow; rowIndex++){
-                    if (sheet.Cells[rowIndex, 2].Value != null)
+                    if (sheet.Cells[rowIndex, 2].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 380)
                     {
                         listData.Add(new DokumenPelengkapTemp(
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
@@ -297,14 +279,15 @@ namespace UploadPB.Services.Class.PostBC40Service
                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),//NoAju
                             "",//NamaSupplier
                             converterChecker.GeneratePureDateTime(sheet.Cells[rowIndex, 95]),//TglBCNO
-                            "IDR",//Valuta
+                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 87]),//Valuta
                             converterChecker.GenerateValueStringBC(sheet.Cells[rowIndex, 2]),//JenisBC
                             0,//JumlahBarang
                             "",//KodeSupplier
-                            converterChecker.GenerateValueString(sheet.Cells[rowIndex, 40])//Vendor
+                            ""//Vendor
                             ));
                     }
                 }
+                return listData;
             }
 
 
@@ -313,7 +296,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                 throw new Exception($"Gagal memproses Sheet Header Dokumen pada baris ke-{rowIndex} - {ex.Message}");
             }
            
-            return listData;
+            
         }
 
         public List<BarangTemp> UploadBarang(ExcelWorksheets excel, int data)
@@ -334,18 +317,44 @@ namespace UploadPB.Services.Class.PostBC40Service
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 11]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
-                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 34]),""
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 29]),
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12])
                             ));
                     }
                 }
+                return listData;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
             }
-           
-            return listData;
+        }
 
+        public List<KemasanTemp> UploadKemasan(ExcelWorksheets excel, int data)
+        {
+            var sheet = excel[data];
+            var totalRow = sheet.Dimension.Rows;
+            var listData = new List<KemasanTemp>();
+            int rowIndex = 0;
+            try
+            {
+                for (rowIndex = 2; rowIndex <= totalRow; rowIndex++)
+                {
+                    if (sheet.Cells[rowIndex, 2].Value != null )
+                    {
+                        listData.Add(new KemasanTemp(
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 3])
+                            ));
+                    }
+                }
+
+                return listData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal memproses Sheet Kemasan pada baris ke-{rowIndex} - {ex.Message}");
+            }
         }
     }
 }

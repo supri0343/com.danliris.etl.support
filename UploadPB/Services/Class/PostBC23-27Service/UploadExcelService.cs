@@ -328,7 +328,7 @@ namespace UploadPB.Services.Class.PostBC23
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 9]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 8]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
-                              0
+                              0,""
                             ));
                     }
                 }
