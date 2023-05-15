@@ -24,4 +24,8 @@
     <ProjectReference Include="..\UploadPB\UploadPB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataUtil\" />
+  </ItemGroup>
+
 </Project>
