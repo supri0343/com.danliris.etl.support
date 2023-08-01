@@ -25,7 +25,7 @@ namespace UploadPB.PostBC
         private readonly DbSet<Beacukai23Temporary> dbSet23;
         private readonly DbSet<Beacukai262Temporary> dbSet262;
         private readonly DbSet<Beacukai30HeaderTemporary> dbSet30;
-
+        private readonly DbSet<Beacukai27Temporary> dbSet27;
         public GetTemporary( SupportDbContext context)
         {
      
@@ -35,6 +35,7 @@ namespace UploadPB.PostBC
             this.dbSet261 = context.Set<Beacukai261Temporary>();
             this.dbSet262 = context.Set<Beacukai262Temporary>();
             this.dbSet30 = context.Set<Beacukai30HeaderTemporary>();
+            this.dbSet27 = context.Set<Beacukai27Temporary>();
         }
 
         [FunctionName("GetTemporarys")]
@@ -99,6 +100,16 @@ namespace UploadPB.PostBC
                     BCType = x.BCType,
                     TglBCNO = x.BCDate,
                     NamaSupplier = x.BuyerName
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }else if (type == "27")
+            {
+                result = this.dbSet27.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
                 }).Distinct().OrderBy(x => x.NoAju).ToList();
             }
 
