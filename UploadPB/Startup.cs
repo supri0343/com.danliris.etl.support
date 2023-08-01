@@ -59,13 +59,15 @@ namespace UploadPB
                 .AddTransient<Services.Interfaces.IPostBC261Service.IPostBeacukai261, Services.Class.PostBC261Service.PostBeacukaiService>()
                 .AddTransient<Services.Interfaces.IPostBC262Service.IPostBeacukai262, Services.Class.PostBC262Service.PostBeacukaiService>()
                 .AddTransient<Services.Interfaces.IPostBC30Service.IPostBeacukai30, Services.Class.PostBC30Service.PostBeacukaiService>()
+                .AddTransient<Services.Interfaces.IPostBC27Service.IPostBeacukai27, Services.Class.PostBC27Service.PostBeacukaiService>()
 
                 .AddTransient<Services.Interfaces.IPostBC23.IUploadExcel, Services.Class.PostBC23.UploadExcelService>()
                 .AddTransient<Services.Interfaces.IPostBC40Service.IUploadExcel40, Services.Class.PostBC40Service.UploadExcelService>()
                 .AddTransient<Services.Interfaces.IPostBC261Service.IUploadExcel261, Services.Class.PostBC261Service.UploadExcelService>()
                 .AddTransient<Services.Interfaces.IPostBC23Service.IUploadExcel23, Services.Class.PostBC23Service.UploadExcelService>()
                 .AddTransient<Services.Interfaces.IPostBC262Service.IUploadExcel262, Services.Class.PostBC262Service.UploadExcelService>()
-                .AddTransient<Services.Interfaces.IPostBC30Service.IUploadExcel30, Services.Class.PostBC30Service.UploadExcelService>();
+                .AddTransient<Services.Interfaces.IPostBC30Service.IUploadExcel30, Services.Class.PostBC30Service.UploadExcelService>()
+                .AddTransient<Services.Interfaces.IPostBC27Service.IUploadExcel27, Services.Class.PostBC27Service.UploadExcelService>();
         }
     }
 }
