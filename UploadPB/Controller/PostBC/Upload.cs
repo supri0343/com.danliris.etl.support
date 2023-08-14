@@ -16,6 +16,7 @@ using UploadPB.Services.Interfaces.IPostBC261Service;
 using Microsoft.Extensions.DependencyInjection;
 using UploadPB.Services.Interfaces.IPostBC262Service;
 using UploadPB.Services.Interfaces.IPostBC30Service;
+using UploadPB.Services.Interfaces.IPostBC27Service;
 
 namespace UploadPB.Controller.PostBC
 {
@@ -26,15 +27,17 @@ namespace UploadPB.Controller.PostBC
         public IUploadExcel261 _uploadExcel261;
         public IUploadExcel262 _uploadExcel262;
         public IUploadExcel30 _uploadExcel30;
+        public IUploadExcel27 _uploadExcel27;
         ConverterChecker converterChecker = new ConverterChecker();
 
-        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30)
+        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30, IUploadExcel27 uploadExcel27)
         {
             _uploadExcel40 = uploadExcel40;
             _uploadExcel23 = uploadExcel23;
             _uploadExcel261 = uploadExcel261;
             _uploadExcel262 = uploadExcel262;
             _uploadExcel30 = uploadExcel30;
+            _uploadExcel27 = uploadExcel27;
         }
 
         [FunctionName("UploadBC")]
@@ -91,6 +94,10 @@ namespace UploadPB.Controller.PostBC
                             else if (type == "30" && typeFromSheet == "30")
                             {
                                 await _uploadExcel30.Upload(sheet);
+                            }
+                            else if (type == "27" && typeFromSheet == "27")
+                            {
+                                await _uploadExcel27.Upload(sheet);
                             }
                             else if (type != typeFromSheet)
                             {
