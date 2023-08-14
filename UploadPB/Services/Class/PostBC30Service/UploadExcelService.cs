@@ -91,7 +91,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                                          BCId="",
                                          DetailBCId = "",
                                          CAR = a.NoAju,
-                                         ItemCode = "-",
+                                         ItemCode = b.KodeBarang,
                                          ItemName = b.Barang,
                                          UnitQtyCode = "-",
                                          Quantity = Convert.ToDouble(b.JumlahSatBarang),
