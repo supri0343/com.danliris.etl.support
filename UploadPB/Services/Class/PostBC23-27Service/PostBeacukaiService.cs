@@ -43,7 +43,8 @@ namespace UploadPB.Services.Class.Post23
             {
                 try
                 {
-                    var existAjuBC = this.dbSet.Select(x => x.NoAju).Distinct();
+                    var year = DateTime.Now.Year;
+                    var existAjuBC = this.dbSet.Where(s => s.TglBCNO.Value.Year >= year).Select(x => x.NoAju).Distinct();
 
                     var lastNo = this.dbSet.Select(x => x.ID).OrderByDescending(x => x).Take(1).ToArray();
 
