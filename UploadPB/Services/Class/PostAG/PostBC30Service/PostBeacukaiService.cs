@@ -5,23 +5,21 @@ using Microsoft.Extensions.DependencyInjection;
 using OfficeOpenXml;
 using System.Linq;
 using System.Threading.Tasks;
-using UploadPB.Models;
-using UploadPB.ViewModels;
 using UploadPB.Tools;
-using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
-using UploadPB.Models.Temporary;
-using UploadPB.Services.Interfaces.IPostBC262Service;
-using UploadPB.Services.Interfaces.IPostBC30Service;
+using UploadPB.Services.Interfaces.IPostBC30Service.PostAG;
+using UploadPB.SupporttDbContext.AG;
+using UploadPB.ViewModels;
+using UploadPB.Models.AGSupport;
 
-namespace UploadPB.Services.Class.PostBC30Service
+namespace UploadPB.Services.Class.PostBC30Service.PostAG
 {
     public class PostBeacukaiService : IPostBeacukai30
     {
-        private readonly SupportDbContext context;
+        private readonly AGDbContext context;
         private readonly DbSet<BEACUKAI_ADDED> dbSet;
 
-        public PostBeacukaiService(IServiceProvider provider, SupportDbContext context)
+        public PostBeacukaiService(IServiceProvider provider, AGDbContext context)
         {
             this.context = context;
             this.dbSet = context.Set<BEACUKAI_ADDED>();
@@ -36,7 +34,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                 {
                     var existAjuBC = this.dbSet.Where(x => x.BCDate.Year >= (DateTime.Now.Year - 1)).Select(x => x.CAR).Distinct();
 
-                    var dataToPost = new List<BEACUKAI_ADDED>();
+                    //var dataToPost = new List<BEACUKAI_ADDED>();
 
                     List<string> ajuToError = new List<string>();
                     List<string> ajuToDeleteTemporary = new List<string>();
