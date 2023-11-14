@@ -33,10 +33,7 @@ namespace UploadPB.Services.Class.PostBC261Service
             {
                 try
                 {
-                    var existAjuBC = this.dbSet.Select(x => x.NoAju).Distinct();
-
-                    var lastNo = this.dbSet.Select(x => x.ID).OrderByDescending(x => x).Take(1).ToArray();
-
+                    var existAjuBC = this.dbSet.Where(x => x.Hari.Value.Year >= (DateTime.Now.Year - 1)).Select(x => x.NoAju).Distinct();
                     var dataToPost = new List<Beacukai_Temp>();
 
                     List<string> ajuToError = new List<string>();
@@ -49,11 +46,13 @@ namespace UploadPB.Services.Class.PostBC261Service
                         if (!existAjuBC.Contains(item.NoAju))
                         {
                           
-                            var ver = context.beacukai261Temporaries.Select(x => x).Where(x => x.NoAju == item.NoAju);
+                            var ver = context.beacukai261Temporaries.Select(x => x).Where(x => x.NoAju == item.NoAju).ToList();
 
                             var index = 1;
                             foreach (var a in ver)
                             {
+                                var lastNo = this.dbSet.Select(x => x.ID).OrderByDescending(x => x).Take(1).ToList();
+
                                 DateTime TglBC = DateTime.Parse(a.TglBCNO.ToString());
                                 DateTime? nullll = null;
 
@@ -93,6 +92,7 @@ namespace UploadPB.Services.Class.PostBC261Service
 
                                 //addNewDataTo---BEACUKAI_TEMP
                                 this.dbSet.Add(datatoPost);
+                                await context.SaveChangesAsync();
                                 index++;
                             }
 
