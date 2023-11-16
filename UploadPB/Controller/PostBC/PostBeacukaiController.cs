@@ -53,34 +53,34 @@ namespace UploadPB.Controller.Post
             List<TemporaryViewModel> Data = JsonConvert.DeserializeObject<List<TemporaryViewModel>>(content);
             try
             {
-                foreach (var a in Data)
+                if(Data.Count > 0)
                 {
-                    if (a.Type == "40")
+                    if (Data[0].Type == "40")
                     {
                         await _postBeacukai40.PostBeacukai(Data, Username);
                     }
-                    else if (a.Type == "23")
+                    else if (Data[0].Type == "23")
                     {
                         await _postBeacukai23.PostBeacukai(Data, Username);
                     }
-                    else if (a.Type == "261")
+                    else if (Data[0].Type == "261")
                     {
                         await _postBeacukai261.PostBeacukai(Data, Username);
                     }
-                    else if (a.Type == "262")
+                    else if (Data[0].Type == "262")
                     {
                         await _postBeacukai262.PostBeacukai(Data, Username);
                     }
-                    else if (a.Type == "30")
+                    else if (Data[0].Type == "30")
                     {
                         await _postBeacukai30.PostBeacukai(Data, Username);
                     }
-                    else if (a.Type == "27")
+                    else if (Data[0].Type == "27")
                     {
                         await _postBeacukai27.PostBeacukai(Data, Username);
                     }
                 }
-
+                    
             }
             catch (Exception ex)
             {
