@@ -12,6 +12,7 @@ using UploadPB.Services.Class;
 using UploadPB.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using UploadPB.Services.Interfaces.IPostBC30Service.PostAG;
+using System.Collections.Generic;
 
 namespace UploadPB.Controller.PostBC.PostAG
 {
@@ -35,7 +36,7 @@ namespace UploadPB.Controller.PostBC.PostAG
 
             req.HttpContext.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
-            const string EXTENSION = ".xlsx";
+            List<string> EXTENSION = new List<string>(new string[] { ".xlsx", ".XLSX" });
 
             try
             {
@@ -46,7 +47,7 @@ namespace UploadPB.Controller.PostBC.PostAG
 
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-                if (System.IO.Path.GetExtension(file.FileName) == EXTENSION)
+                if (EXTENSION.Contains(System.IO.Path.GetExtension(file.FileName)))
                 {
 
                     using (var excelPack = new ExcelPackage())
