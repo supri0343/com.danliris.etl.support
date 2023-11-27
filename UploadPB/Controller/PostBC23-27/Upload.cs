@@ -9,6 +9,7 @@ using OfficeOpenXml;
 using UploadPB.Models;
 using UploadPB.Services.Interfaces.IPostBC23;
 using UploadPB.Services.Class;
+using System.Collections.Generic;
 
 namespace UploadPB
 {
@@ -37,7 +38,7 @@ namespace UploadPB
             var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
 
 
-            const string EXTENSION = ".xlsx";
+            List<string> EXTENSION = new List<string>(new string[] { ".xlsx", ".XLSX" });
 
             try
             {
@@ -45,7 +46,7 @@ namespace UploadPB
                 IFormFile file = req.Form.Files["file"];
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-                if (System.IO.Path.GetExtension(file.FileName) == EXTENSION)
+                if (EXTENSION.Contains(System.IO.Path.GetExtension(file.FileName)))
                 {
 
                     using (var excelPack = new ExcelPackage())
