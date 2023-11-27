@@ -44,7 +44,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                     var data = 0;
 
                     var ListHeader = new List<HeaderDokumenTempModel>();
-                    var ListBarang = new List<BarangTemp>();
+                    var ListBarang = new List<BarangTemp30>();
                     var ListDokument = new List<DokumenPelengkapTemp>();
                     var ListEntitas= new List<EntitasTemp>();
                     var ListKemasan = new List<KemasanTemp>();
@@ -98,29 +98,55 @@ namespace UploadPB.Services.Class.PostBC30Service
                                          Price = (decimal)b.CIF_Rupiah,
                                          CurrencyCode = a.Valuta,
                                          UomUnit = b.Sat,
+                                         Pack = b.Pack
                                      }).ToList();
 
-                    var queryheader = (from a in ListHeader
-                                       join b in ListKemasan on a.NoAju equals b.NoAju
-                                       join c in ListEntitas on a.NoAju equals c.NoAju
-                                       join d in ListDokument on a.NoAju equals d.NoAju
-                                       select new Beacukai30HeaderTemporary
-                                       {
-                                           BCId="",
-                                           BCType = "BC 3.0",
-                                           BCNo = a.BCNo,
-                                           CAR = a.NoAju,
-                                           BCDate = a.TglBCNO.Value.DateTime,
-                                           ExpenditureNo = d.NomorDokumen,
-                                           ExpenditureDate = d.TanggalDokumen.Value.DateTime,
-                                           BuyerCode = "-",
-                                           BuyerName = a.NamaSupplier,
-                                           Vendor = a.NamaSupplier,
-                                           Netto = Convert.ToDouble(a.Netto),
-                                           Bruto = Convert.ToDouble(a.Bruto),
-                                           Pack = b.KodeKemasan,
-                                           //Items = queryitem
-                                       }).ToList();
+                    var queryheader = ListKemasan.Count == 1 ? (from a in ListHeader
+                                                                join b in ListKemasan on a.NoAju equals b.NoAju
+                                                                //join c in ListEntitas on a.NoAju equals c.NoAju
+                                                                join d in ListDokument on a.NoAju equals d.NoAju
+                                                                //join e in ListBarang on a.NoAju equals e.NoAju
+                                                                select new Beacukai30HeaderTemporary
+                                                                {
+                                                                    BCId = "",
+                                                                    BCType = "BC 3.0",
+                                                                    BCNo = a.BCNo,
+                                                                    CAR = a.NoAju,
+                                                                    BCDate = a.TglBCNO.Value.DateTime,
+                                                                    ExpenditureNo = d.NomorDokumen,
+                                                                    ExpenditureDate = d.TanggalDokumen.Value.DateTime,
+                                                                    BuyerCode = "-",
+                                                                    BuyerName = a.NamaSupplier,
+                                                                    Vendor = a.NamaSupplier,
+                                                                    Netto = Convert.ToDouble(a.Netto),
+                                                                    Bruto = Convert.ToDouble(a.Bruto),
+                                                                    Pack = b.KodeKemasan,
+                                                                    //Items = queryitem
+                                                                }).ToList() : (from a in ListHeader
+                                                                               //join b in ListKemasan on a.NoAju equals b.NoAju
+                                                                               //join c in ListEntitas on a.NoAju equals c.NoAju
+                                                                               join d in ListDokument on a.NoAju equals d.NoAju
+                                                                               join e in ListBarang on a.NoAju equals e.NoAju
+                                                                               select new Beacukai30HeaderTemporary
+                                                                               {
+                                                                                   BCId = "",
+                                                                                   BCType = "BC 3.0",
+                                                                                   BCNo = a.BCNo,
+                                                                                   CAR = a.NoAju,
+                                                                                   BCDate = a.TglBCNO.Value.DateTime,
+                                                                                   ExpenditureNo = d.NomorDokumen,
+                                                                                   ExpenditureDate = d.TanggalDokumen.Value.DateTime,
+                                                                                   BuyerCode = "-",
+                                                                                   BuyerName = a.NamaSupplier,
+                                                                                   Vendor = a.NamaSupplier,
+                                                                                   Netto = Convert.ToDouble(e.Netto),
+                                                                                   Bruto = Convert.ToDouble(a.Bruto),
+                                                                                   Pack = e.Pack,
+                                                                                   //Netto = Convert.ToDouble(e.Netto),
+                                                                                   //Bruto = Convert.ToDouble(a.Bruto),
+                                                                                   //Pack = b.KodeKemasan,
+                                                                                   //Items = queryitem
+                                                                               }).ToList();
 
 
 
@@ -165,15 +191,18 @@ namespace UploadPB.Services.Class.PostBC30Service
                   
                         index++;
                         this.dbSet.Add(a);
+
+                        long indexItem = 1;
+                        foreach (var item in items.Where(x => x.Pack == a.Pack))
+                        {
+                            item.DetailBCId = index.ToString() + indexItem.ToString();
+                            item.BCId = a.BCId;
+                            indexItem++;
+                            context.Beacukai30ItemsTemporaries.Add(item);
+                        }
                     }
 
-                    long indexItem = 1;
-                    foreach (var item in items)
-                    {
-                        item.DetailBCId = index.ToString() + indexItem.ToString();
-                        indexItem++;
-                        context.Beacukai30ItemsTemporaries.Add(item);
-                    }
+                   
 
                     Created = await context.SaveChangesAsync();
                     transaction.Commit();
@@ -299,11 +328,11 @@ namespace UploadPB.Services.Class.PostBC30Service
             
         }
 
-        public List<BarangTemp> UploadBarang(ExcelWorksheets excel, int data)
+        public List<BarangTemp30> UploadBarang(ExcelWorksheets excel, int data)
         {
             var sheet = excel[data];
             var totalRow = sheet.Dimension.Rows;
-            var listData = new List<BarangTemp>();
+            var listData = new List<BarangTemp30>();
             int rowIndex = 0;
             try
             {
@@ -311,14 +340,16 @@ namespace UploadPB.Services.Class.PostBC30Service
                 {
                     if (sheet.Cells[rowIndex, 2].Value != null)
                     {
-                        listData.Add(new BarangTemp(
+                        listData.Add(new BarangTemp30(
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 11]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 29]),
-                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12])
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12]),
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 20]),
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 20])
                             ));
                     }
                 }

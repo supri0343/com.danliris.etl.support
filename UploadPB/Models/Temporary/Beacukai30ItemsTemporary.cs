@@ -23,5 +23,7 @@ namespace UploadPB.Models.Temporary
         public string CurrencyCode { get; set; }
         public string CAR { get; set; }
         public string UomUnit { get; set; }
+
+        public string Pack { get; set; }
     }
 }
