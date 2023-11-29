@@ -51,9 +51,10 @@ namespace UploadPB.Services.Class.PostBC30Service
                             var header = context.beacukai30HeaderTemporaries.Select(x => x).Where(s => s.CAR == item.NoAju).ToList();
 
                             var index = 1;
-                            id = GenerateNo();
-                            foreach (var a in header)
+                           
+                             foreach (var a in header)
                             {
+                                id = GenerateNo();
                                 BEACUKAI_ADDED datatoPost = new BEACUKAI_ADDED
                                 {
                                     BCId = id,
@@ -76,7 +77,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                                     Items = new List<BEACUKAI_ADDED_DETAIL>()
                                 };
 
-                                var dataitems = context.Beacukai30ItemsTemporaries.Select(x => x).Where(x => x.CAR == a.CAR).ToList();
+                                var dataitems = context.Beacukai30ItemsTemporaries.Select(x => x).Where(x => x.CAR == a.CAR && x.BCId == a.BCId).ToList();
                                 var idDetail = 1;
                                 foreach (var items in dataitems)
                                 {
@@ -100,6 +101,7 @@ namespace UploadPB.Services.Class.PostBC30Service
 
                                 //addNewDataTo---BEACUKAI_TEMP
                                 this.dbSet.Add(datatoPost);
+                                await context.SaveChangesAsync();
                                 index++;
                             }
 
