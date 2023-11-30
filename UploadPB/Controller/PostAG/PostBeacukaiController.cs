@@ -12,6 +12,7 @@ using UploadPB.ViewModels;
 using Newtonsoft.Json;
 using System.Linq;
 using UploadPB.Services.Interfaces.IPostBC30Service.PostAG;
+using UploadPB.Services.Interfaces.IPostBC20Service.PostAG;
 
 namespace UploadPB.Controller.Post.PostAG
 {
@@ -19,11 +20,13 @@ namespace UploadPB.Controller.Post.PostAG
     {
 
         public IPostBeacukai30 _postBeacukai30;
+        public IPostBeacukai20 _postBeacukai20;
 
 
-        public PostBeacukaiController(IPostBeacukai30 postBeacukai30)
+        public PostBeacukaiController(IPostBeacukai30 postBeacukai30, IPostBeacukai20 postBeacukai20)
         {
             _postBeacukai30 = postBeacukai30;
+            _postBeacukai20 = postBeacukai20;
         }
 
         [FunctionName("PostBeacukaies-AG")]
@@ -42,11 +45,17 @@ namespace UploadPB.Controller.Post.PostAG
             {
                 if(Data.Count > 0)
                 {
-                    
+
                     if (Data[0].Type == "30")
                     {
                         await _postBeacukai30.PostBeacukai(Data, Username);
                     }
+                    else if
+                        (Data[0].Type == "20")
+                    {
+                        await _postBeacukai20.PostBeacukai(Data, Username);
+                    }
+                    
                    
                 }
                     
