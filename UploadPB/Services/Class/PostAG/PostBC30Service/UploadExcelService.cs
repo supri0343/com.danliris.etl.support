@@ -45,7 +45,7 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                 {
                     var data = 0;
 
-                    var ListHeader = new List<HeaderDokumenTempModel>();
+                    var ListHeader = new List<HeaderDokumenTempModel30>();
                     var ListBarang = new List<BarangTemp>();
                     var ListDokument = new List<DokumenPelengkapTemp>();
                     var ListEntitas= new List<EntitasTemp>();
@@ -121,6 +121,7 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                                            Netto = Convert.ToDouble(a.Netto),
                                            Bruto = Convert.ToDouble(a.Bruto),
                                            Pack = b.KodeKemasan,
+                                           Country = a.Country
                                            //Items = queryitem
                                        }).ToList();
 
@@ -260,11 +261,11 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
         }
 
 
-        public List<HeaderDokumenTempModel> UploadHeader(ExcelWorksheets excel, int data)
+        public List<HeaderDokumenTempModel30> UploadHeader(ExcelWorksheets excel, int data)
         {
             var sheet = excel[data];
             var totalRow = sheet.Dimension.Rows;
-            var listData = new List<HeaderDokumenTempModel>();
+            var listData = new List<HeaderDokumenTempModel30>();
             int rowIndex = 0;
             try
             {
@@ -272,7 +273,7 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                 {
                     if (sheet.Cells[rowIndex, 94].Value != null)
                     {
-                        listData.Add(new HeaderDokumenTempModel(
+                        listData.Add(new HeaderDokumenTempModel30(
                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 94]),//bcNo
                             converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 80]),//bruto
                             converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 73]),//CIF
@@ -285,7 +286,8 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                             converterChecker.GenerateValueStringBC(sheet.Cells[rowIndex, 2]),//JenisBC
                             0,//JumlahBarang
                             "",//KodeSupplier
-                            ""//Vendor
+                             "",
+                             converterChecker.GenerateValueString(sheet.Cells[rowIndex, 34])//Country but in Vendor.
                             ));
                     }
                 }
