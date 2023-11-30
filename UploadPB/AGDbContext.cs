@@ -14,7 +14,8 @@ namespace UploadPB.SupporttDbContext.AG
         public DbSet<BEACUKAI_ADDED_DETAIL> BEACUKAI_ADDED_DETAIL { get; set; }
         public DbSet<Beacukai30HeaderTemporary> beacukai30HeaderTemporaries { get; set; }
         public DbSet<Beacukai30ItemsTemporary> Beacukai30ItemsTemporaries { get; set; }
-
+        public DbSet<Beacukai20Temporary> Beacukai20Temporary { get; set; }
+        public DbSet<Beacukai_Temp> BEACUKAI_TEMP { get; set; }
         public AGDbContext(DbContextOptions<AGDbContext> options) : base(options)
         {
         }

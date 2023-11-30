@@ -23,13 +23,14 @@ namespace UploadPB.PostBC.PostAG
         private readonly AGDbContext context;
 
         private readonly DbSet<Beacukai30HeaderTemporary> dbSet30;
-
+        private readonly DbSet<Beacukai20Temporary> dbSet20;
         public GetTemporary(AGDbContext context)
         {
      
             this.context = context;
 
             this.dbSet30 = context.Set<Beacukai30HeaderTemporary>();
+            this.dbSet20 = context.Set<Beacukai20Temporary>();
         }
 
         [FunctionName("GetTemporarys-AG")]
@@ -52,6 +53,17 @@ namespace UploadPB.PostBC.PostAG
                     BCType = x.BCType,
                     TglBCNO = x.BCDate,
                     NamaSupplier = x.BuyerName
+                }).Distinct().OrderBy(x => x.NoAju).ToList();
+            }
+            else if (type == "20")
+            {
+                result = this.dbSet20.Select(x => new TemporaryToViewModel
+                {
+                    NoAju = x.NoAju,
+                    BCNo = x.BCNo,
+                    BCType = x.JenisBC,
+                    TglBCNO = x.TglBCNO,
+                    NamaSupplier = x.NamaSupplier
                 }).Distinct().OrderBy(x => x.NoAju).ToList();
             }
 

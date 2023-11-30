@@ -13,19 +13,23 @@ using UploadPB.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using UploadPB.Services.Interfaces.IPostBC30Service.PostAG;
 using System.Collections.Generic;
+using UploadPB.Services.Interfaces.IPostBC20Service.PostAG;
 
 namespace UploadPB.Controller.PostBC.PostAG
 {
     public class UploadAG
     {
         public IUploadExcel30AG _uploadExcel30;
+        public IUploadExcel20 _uploadExcel20;
 
         ConverterChecker converterChecker = new ConverterChecker();
 
-        public UploadAG(IUploadExcel30AG uploadExcel30)
+        public UploadAG(IUploadExcel30AG uploadExcel30, IUploadExcel20 uploadExcel20)
         {
             _uploadExcel30 = uploadExcel30;
+            _uploadExcel20 = uploadExcel20;
         }
+
 
         [FunctionName("UploadBC-AG")]
         public async Task<IActionResult> Run(
@@ -68,7 +72,11 @@ namespace UploadPB.Controller.PostBC.PostAG
                             {
                                 await _uploadExcel30.Upload(sheet);
                             }
-                         
+                            else if (type == "20" && typeFromSheet == "20")
+                            {
+                                await _uploadExcel20.Upload(sheet);
+                            }
+
                             else if (type != typeFromSheet)
                             {
                                 throw new Exception("Harap Upload File Sesuai Dengan Tipe BC yang Dipilih");
