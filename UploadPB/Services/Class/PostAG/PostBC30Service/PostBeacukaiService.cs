@@ -49,9 +49,10 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                             var header = context.beacukai30HeaderTemporaries.Select(x => x).Where(s => s.CAR == item.NoAju).ToList();
 
                             var index = 1;
-                            id = GenerateNo();
+                          
                             foreach (var a in header)
                             {
+                                id = GenerateNo();
                                 BEACUKAI_ADDED datatoPost = new BEACUKAI_ADDED
                                 {
                                     BCId = id,
@@ -71,6 +72,7 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                                     UpdateUser = Username,
                                     UpdateDate = DateTime.Now,
                                     Vendor = a.BuyerName,
+                                    Country = a.Country,
                                     Items = new List<BEACUKAI_ADDED_DETAIL>()
                                 };
 
