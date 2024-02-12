@@ -16,6 +16,7 @@ namespace UploadPB.ViewModels
         public string Keterangan { get; set; }
         public decimal? JumlahSatBarang { get; set; }
         public string KodeBarang { get; set; }
+        public int? SeriBarang { get; set; }
         public string KodeKemasan { get; set; }
         public string NamaKemasan { get; set; }
         public decimal? Netto { get; set; }

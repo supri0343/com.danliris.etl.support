@@ -89,7 +89,8 @@ namespace UploadPB.Services.Class.PostBC20Service.PostAG
                                     TglDatang = item.TglDatang,
                                     CreatedBy = Username,
                                     Vendor = a.Vendor,
-                                    Hari = DateTime.Now
+                                    Hari = DateTime.Now,
+                                    SeriBarang = a.SeriBarang
                                 };
 
                                 //addNewDataTo---BEACUKAI_TEMP
