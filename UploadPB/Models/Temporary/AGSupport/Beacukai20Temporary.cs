@@ -18,6 +18,7 @@ namespace UploadPB.Models.Temporary.AGSupport
         public decimal? CIF_Rupiah { get; set; }
         public string Keterangan { get; set; }
         public decimal? JumlahSatBarang { get; set; }
+        public int? SeriBarang { get; set; }
         public string KodeBarang { get; set; }
         public string KodeKemasan { get; set; }
         public string NamaKemasan { get; set; }

@@ -322,7 +322,8 @@ namespace UploadPB.Services.Class.PostBC30Service.PostAG
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 29]),
-                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12])
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12]),
+                              0
                             ));
                     }
                 }
