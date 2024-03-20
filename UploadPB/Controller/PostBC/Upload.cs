@@ -19,6 +19,7 @@ using UploadPB.Services.Interfaces.IPostBC30Service;
 using UploadPB.Services.Interfaces.IPostBC27Service;
 using System.Collections.Generic;
 using UploadPB.Services.Interfaces.IPostBC41Service;
+using UploadPB.Services.Interfaces.IPostBC25Service;
 
 namespace UploadPB.Controller.PostBC
 {
@@ -31,9 +32,10 @@ namespace UploadPB.Controller.PostBC
         public IUploadExcel30 _uploadExcel30;
         public IUploadExcel27 _uploadExcel27;
         public IUploadExcel41 _uploadExcel41;
+        public IUploadExcel25 _uploadExcel25;
         ConverterChecker converterChecker = new ConverterChecker();
 
-        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30, IUploadExcel27 uploadExcel27, IUploadExcel41 uploadExcel41)
+        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30, IUploadExcel27 uploadExcel27, IUploadExcel41 uploadExcel41, IUploadExcel25 uploadExcel25)
         {
             _uploadExcel40 = uploadExcel40;
             _uploadExcel23 = uploadExcel23;
@@ -42,6 +44,7 @@ namespace UploadPB.Controller.PostBC
             _uploadExcel30 = uploadExcel30;
             _uploadExcel27 = uploadExcel27;
             _uploadExcel41 = uploadExcel41;
+            _uploadExcel25 = uploadExcel25;
         }
 
         [FunctionName("UploadBC")]
@@ -108,6 +111,9 @@ namespace UploadPB.Controller.PostBC
                             else if (type == "41" && typeFromSheet == "41")
                             {
                                 await _uploadExcel41.Upload(sheet);
+                            } else if (type == "25" && typeFromSheet == "25")
+                            {
+                                await _uploadExcel25.Upload(sheet);
                             }
                             else if (type != typeFromSheet)
                             {
