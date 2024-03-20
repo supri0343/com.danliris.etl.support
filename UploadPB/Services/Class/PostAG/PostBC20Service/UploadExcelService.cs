@@ -105,7 +105,8 @@ namespace UploadPB.Services.Class.PostBC20Service.PostAG
                                            JumlahBarang = ListBarang.Where(x=> x.NoAju == a.NoAju).Count(),
                                            Sat = b.Sat,
                                            KodeSupplier = c.KodeSupplier,
-                                           KodeKemasan = b.Pack
+                                           KodeKemasan = b.Pack,
+                                           SeriBarang = b.SeriBarang
                                        }).ToList();
 
                     var querydokumen = (from a in ListHeader
@@ -186,7 +187,8 @@ namespace UploadPB.Services.Class.PostBC20Service.PostAG
                             JenisDokumen = a.JenisDokumen,
                             NomorDokumen = a.NomorDokumen,
                             TanggalDokumen = a.TanggalDokumen,
-                            KodeKemasan = a.KodeKemasan
+                            KodeKemasan = a.KodeKemasan,
+                            SeriBarang = a.SeriBarang
                         };
 
                         this.dbSet.Add(beacukaiTemporaryModel);
@@ -334,7 +336,9 @@ namespace UploadPB.Services.Class.PostBC20Service.PostAG
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 27]),
-                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12])
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12]),
+                              converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 2])
+
                             ));
                     }
                 }

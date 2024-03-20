@@ -331,7 +331,7 @@ namespace UploadPB.Services.Class.PostBC41Service
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 34]),
-                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12])
+                              converterChecker.GenerateValueString(sheet.Cells[rowIndex, 12]),0
                             ));
                     }
                 }

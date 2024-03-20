@@ -330,7 +330,7 @@ namespace UploadPB.Services.Class.PostBC262Service
                               converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 11]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 4]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 10]),
-                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 27]),""
+                              converterChecker.GenerateValueDecimal(sheet.Cells[rowIndex, 27]),"",0
                             ));
                     }
                 }
