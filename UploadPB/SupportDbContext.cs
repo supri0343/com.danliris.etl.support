@@ -22,6 +22,7 @@ namespace UploadPB.SupporttDbContext
         public DbSet<Beacukai30ItemsTemporary> Beacukai30ItemsTemporaries { get; set; }
         public DbSet<Beacukai27Temporary> beacukai27Temporaries { get; set; }
         public DbSet<Beacukai41Temporary> beacukai41Temporaries { get; set; }
+        public DbSet<Beacukai25Temporary> beacukai25Temporaries { get; set; }
         public SupportDbContext(DbContextOptions<SupportDbContext> options) : base(options)
         {
         }
