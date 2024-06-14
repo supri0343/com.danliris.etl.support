@@ -38,6 +38,7 @@ namespace UploadPB.ViewModels
         public string CreatedBy { get; set; }
         public string Vendor { get; set; }
         public string Type { get; set; }
+        public DateTime? TruckingDate { get; set; }
 
     }
 }
