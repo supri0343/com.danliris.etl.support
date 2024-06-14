@@ -74,7 +74,9 @@ namespace UploadPB.Services.Class.PostBC30Service
                                     UpdateUser = Username,
                                     UpdateDate = DateTime.Now,
                                     Vendor = a.BuyerName,
-                                    Items = new List<BEACUKAI_ADDED_DETAIL>()
+                                    TruckingDate = item.TruckingDate.Value,
+                                    Items = new List<BEACUKAI_ADDED_DETAIL>(),
+                                    
                                 };
 
                                 var dataitems = context.Beacukai30ItemsTemporaries.Select(x => x).Where(x => x.CAR == a.CAR && x.BCId == a.BCId).ToList();
