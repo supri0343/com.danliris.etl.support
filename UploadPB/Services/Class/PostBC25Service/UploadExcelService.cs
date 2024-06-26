@@ -324,6 +324,14 @@ namespace UploadPB.Services.Class.PostBC25Service
                 {
                     if (sheet.Cells[rowIndex, 2].Value != null)
                     {
+                        if (sheet.Cells[rowIndex, 4].Value == null || string.IsNullOrWhiteSpace(sheet.Cells[rowIndex, 4].Value.ToString()) || sheet.Cells[rowIndex, 4].Value.ToString() == "-")
+                        {
+                            //MessageBox.Show($"Row {rowIndex}: Cell 4 is blank. Please fill in the required data.");
+                            throw new Exception($"Kolom Kode Barang {sheet.Cells[rowIndex, 4]} Pada Excel berisi data kosong atau tanda - ");
+
+                            // or break; depending on your requirement
+                        }
+
                         listData.Add(new BarangTemp(
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]),
@@ -338,7 +346,7 @@ namespace UploadPB.Services.Class.PostBC25Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
+                throw new Exception($"Gagal memproses Sheet BARANG, baris ke- {rowIndex}, - {ex.Message}");
             }
            
            
