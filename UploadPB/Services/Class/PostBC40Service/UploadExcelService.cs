@@ -353,7 +353,7 @@ namespace UploadPB.Services.Class.PostBC40Service
             catch (Exception ex)
             {
                 //throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
-                throw new Exception($"Gagal memproses Sheet BARANG, - {ex.Message}");
+                throw new Exception($"Gagal memproses Sheet BARANG, baris ke- {rowIndex}, - {ex.Message}");
 
             }
 
