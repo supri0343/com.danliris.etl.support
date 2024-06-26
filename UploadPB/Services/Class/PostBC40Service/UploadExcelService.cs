@@ -109,6 +109,7 @@ namespace UploadPB.Services.Class.PostBC40Service
                                            KodeSupplier = c.KodeSupplier,
                                      
                                        }).ToList();
+                   
 
                     var querydokumen = (from a in ListHeader
                                         join b in ListDokument on a.NoAju equals b.NoAju
@@ -138,7 +139,9 @@ namespace UploadPB.Services.Class.PostBC40Service
 
                     //delete all temporaray data
                     var itemtoDelete = context.Set<Beacukai40Temporary>();
-                    context.beacukai40Temporaries.RemoveRange(itemtoDelete);
+                    //atas ini sdh error
+                    dbSet.RemoveRange(itemtoDelete);
+                    //berhenti d atas ini
                     context.SaveChanges();
                     transaction.Commit();
 
@@ -328,6 +331,14 @@ namespace UploadPB.Services.Class.PostBC40Service
                 {
                     if (sheet.Cells[rowIndex, 2].Value != null)
                     {
+                        if (sheet.Cells[rowIndex, 4].Value == null || string.IsNullOrWhiteSpace(sheet.Cells[rowIndex, 4].Value.ToString()) || sheet.Cells[rowIndex, 4].Value.ToString() == "-")
+                        {
+                            //MessageBox.Show($"Row {rowIndex}: Cell 4 is blank. Please fill in the required data.");
+                            throw new Exception($"Kolom Kode Barang {sheet.Cells[rowIndex, 4]} Pada Excel berisi data kosong atau tanda - ");
+
+                            // or break; depending on your requirement
+                        }
+
                         listData.Add(new BarangTemp(
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
                               converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]),
@@ -341,9 +352,11 @@ namespace UploadPB.Services.Class.PostBC40Service
             }
             catch (Exception ex)
             {
-                throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
+                //throw new Exception($"Gagal memproses Sheet Barang pada baris ke-{rowIndex} - {ex.Message}");
+                throw new Exception($"Gagal memproses Sheet BARANG, - {ex.Message}");
+
             }
-           
+
             return listData;
 
         }
