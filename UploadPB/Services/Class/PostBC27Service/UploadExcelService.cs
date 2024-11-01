@@ -48,6 +48,7 @@ namespace UploadPB.Services.Class.PostBC27Service
                     var ListBarang = new List<BarangTemp>();
                     var ListDokument = new List<DokumenPelengkapTemp>();
                     var ListEntitas= new List<EntitasTemp>();
+                    var ListKemasan = new List<KemasanTemp>();
 
                     var count = sheet.Count();
                     for (var i = 0; i < count; i++)
@@ -67,6 +68,11 @@ namespace UploadPB.Services.Class.PostBC27Service
                         if (sheet[i].Name.ToUpper() == "ENTITAS")
                         {
                             ListEntitas = UploadEntitas(sheet, data);
+                        }
+                        if (sheet[i].Name.ToUpper() == "KEMASAN")
+                        {
+                            ListKemasan = UploadKemasan(sheet, data);
+
                         }
                         data++;
                     }
@@ -103,7 +109,10 @@ namespace UploadPB.Services.Class.PostBC27Service
                                            JumlahBarang = ListBarang.Where(x=> x.NoAju == a.NoAju).Count(),
                                            Sat = b.Sat,
                                            KodeSupplier = c.KodeSupplier,
-                                     
+                                           KodeKemasan = ListKemasan.FirstOrDefault(x => x.NoAju == a.NoAju).KodeKemasan,
+                                           JumlahKemasan = ListKemasan.FirstOrDefault(x => x.NoAju == a.NoAju).JumlahKemasan
+
+
                                        }).ToList();
 
                     var querydokumen = (from a in ListHeader
@@ -184,7 +193,8 @@ namespace UploadPB.Services.Class.PostBC27Service
                             JenisDokumen = a.JenisDokumen,
                             NomorDokumen = a.NomorDokumen,
                             TanggalDokumen = a.TanggalDokumen,
-
+                            JumlahKemasan = a.JumlahKemasan,
+                            KodeKemasan = a.KodeKemasan
                         };
 
                         this.dbSet.Add(beacukaiTemporaryModel);
@@ -236,6 +246,39 @@ namespace UploadPB.Services.Class.PostBC27Service
                 }
 
 
+                return listData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Gagal memproses Sheet Dokumen Pelengkap pada baris ke-{rowIndex} - {ex.Message}");
+            }
+        }
+
+        public List<KemasanTemp> UploadKemasan(ExcelWorksheets excel, int data)
+        {
+            var sheet = excel[data];
+            var totalRow = sheet.Dimension.Rows;
+            var listData = new List<KemasanTemp>();
+            int rowIndex = 0;
+            try
+            {
+
+                for (rowIndex = 2; rowIndex <= totalRow; rowIndex++)
+                {
+                    if (sheet.Cells[rowIndex, 1].Value != null)
+                    {
+                        listData.Add(new KemasanTemp
+                        {
+                            NoAju = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 1]),
+                            KodeKemasan = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 3]),
+                            JumlahKemasan = converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 4]),
+
+                        });
+
+
+                    }
+
+                }
                 return listData;
             }
             catch (Exception ex)

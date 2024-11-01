@@ -88,7 +88,8 @@ namespace UploadPB.Services.Class.PostBC262Service
                                     TglDatang = item.TglDatang,
                                     CreatedBy = Username,
                                     Vendor = a.Vendor,
-                                    Hari = DateTime.Now
+                                    Hari = DateTime.Now,
+                                    JumlahKemasan = a.JumlahKemasan,
                                 };
 
                                 //addNewDataTo---BEACUKAI_TEMP
