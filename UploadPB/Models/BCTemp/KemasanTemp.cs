@@ -13,7 +13,11 @@ namespace UploadPB.Models.BCTemp
         }
         public string NoAju { get; set; }
         public string KodeKemasan { get; set; }
+        public int JumlahKemasan { get; set; }
+        public KemasanTemp()
+        {
+        }
 
-        
+
     }
 }
