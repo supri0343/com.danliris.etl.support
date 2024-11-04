@@ -13,9 +13,9 @@ namespace UploadPB.Tools
             return value.Value.ToString().Trim();
         }
 
-        public int? GenerateValueInt(ExcelRangeBase value) {
+        public int GenerateValueInt(ExcelRangeBase value) {
             if (value.Value == null || value.Value.Equals("-") || string.IsNullOrWhiteSpace(value.Text) || value.Text.Trim().Equals("-")) {
-                return null;
+                return 0;
             }
             return Convert.ToInt32(value.Value.ToString().Trim());
         }
