@@ -20,6 +20,7 @@ using UploadPB.Services.Interfaces.IPostBC27Service;
 using System.Collections.Generic;
 using UploadPB.Services.Interfaces.IPostBC41Service;
 using UploadPB.Services.Interfaces.IPostBC25Service;
+using UploadPB.Services.Interfaces.IPostBC33Service;
 
 namespace UploadPB.Controller.PostBC
 {
@@ -33,9 +34,10 @@ namespace UploadPB.Controller.PostBC
         public IUploadExcel27 _uploadExcel27;
         public IUploadExcel41 _uploadExcel41;
         public IUploadExcel25 _uploadExcel25;
+        public IUploadExcel33 _uploadExcel33;
         ConverterChecker converterChecker = new ConverterChecker();
 
-        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30, IUploadExcel27 uploadExcel27, IUploadExcel41 uploadExcel41, IUploadExcel25 uploadExcel25)
+        public Upload(IUploadExcel40 uploadExcel40, IUploadExcel23 uploadExcel23, IUploadExcel261 uploadExcel261, IUploadExcel262 uploadExcel262, IUploadExcel30 uploadExcel30, IUploadExcel27 uploadExcel27, IUploadExcel41 uploadExcel41, IUploadExcel25 uploadExcel25, IUploadExcel33 uploadExcel33)
         {
             _uploadExcel40 = uploadExcel40;
             _uploadExcel23 = uploadExcel23;
@@ -45,6 +47,7 @@ namespace UploadPB.Controller.PostBC
             _uploadExcel27 = uploadExcel27;
             _uploadExcel41 = uploadExcel41;
             _uploadExcel25 = uploadExcel25;
+            _uploadExcel33 = uploadExcel33;
         }
 
         [FunctionName("UploadBC")]
@@ -114,6 +117,10 @@ namespace UploadPB.Controller.PostBC
                             } else if (type == "25" && typeFromSheet == "25")
                             {
                                 await _uploadExcel25.Upload(sheet);
+                            }
+                            else if (type == "33" && typeFromSheet == "33")
+                            {
+                                await _uploadExcel33.Upload(sheet);
                             }
                             else if (type != typeFromSheet)
                             {
