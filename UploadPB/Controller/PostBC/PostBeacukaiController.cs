@@ -19,6 +19,7 @@ using UploadPB.Services.Interfaces.IPostBC30Service;
 using UploadPB.Services.Interfaces.IPostBC27Service;
 using UploadPB.Services.Interfaces.IPostBC41Service;
 using UploadPB.Services.Interfaces.IPostBC25Service;
+using UploadPB.Services.Interfaces.IPostBC33Service;
 
 namespace UploadPB.Controller.Post
 {
@@ -32,7 +33,8 @@ namespace UploadPB.Controller.Post
         public IPostBeacukai27 _postBeacukai27;
         public IPostBeacukai41 _postBeacukai41;
         public IPostBeacukai25 _postBeacukai25;
-        public PostBeacukaiController(IPostBeacukai40 postBeacukai40, IPostBeacukai23 postBeacukai23, IPostBeacukai261 postBeacukai261, IPostBeacukai262 postBeacukai262, IPostBeacukai30 postBeacukai30, IPostBeacukai27 postBeacukai27, IPostBeacukai41 postBeacukai41, IPostBeacukai25 postBeacukai25)
+        public IPostBeacukai33 _postBeacukai33;
+        public PostBeacukaiController(IPostBeacukai40 postBeacukai40, IPostBeacukai23 postBeacukai23, IPostBeacukai261 postBeacukai261, IPostBeacukai262 postBeacukai262, IPostBeacukai30 postBeacukai30, IPostBeacukai27 postBeacukai27, IPostBeacukai41 postBeacukai41, IPostBeacukai25 postBeacukai25, IPostBeacukai33 postBeacukai33)
         {
             _postBeacukai40 = postBeacukai40;
             _postBeacukai23 = postBeacukai23;
@@ -42,6 +44,7 @@ namespace UploadPB.Controller.Post
             _postBeacukai27 = postBeacukai27;
             _postBeacukai41 = postBeacukai41;
             _postBeacukai25 = postBeacukai25;
+            _postBeacukai33 = postBeacukai33;
         }
 
         [FunctionName("PostBeacukaies")]
@@ -90,6 +93,10 @@ namespace UploadPB.Controller.Post
                     } else if (Data[0].Type == "25")
                     {
                         await _postBeacukai25.PostBeacukai(Data, Username);
+                    }
+                    else if (Data[0].Type == "33")
+                    {
+                        await _postBeacukai33.PostBeacukai(Data, Username);
                     }
                 }
 
