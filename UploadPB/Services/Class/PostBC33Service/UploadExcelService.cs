@@ -230,7 +230,7 @@ namespace UploadPB.Services.Class.PostBC33Service
                 for (rowIndex = 2; rowIndex <= totalRow; rowIndex++)
                 {
                     var DataEntitas = new EntitasTemp("","","","");
-                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 3) 
+                    if (sheet.Cells[rowIndex, 1].Value != null && converterChecker.GenerateValueInt(sheet.Cells[rowIndex, 3]) == 8) 
                     {
                         DataEntitas.NamaSupplier = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 6]);
                         DataEntitas.KodeSupplier = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 5]);
