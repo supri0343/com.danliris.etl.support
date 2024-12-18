@@ -27,6 +27,8 @@ namespace UploadPB.Models.Temporary
         public string UpdateUser { get; set; }
         public DateTime UpdateDate { get; set; }
         public string Vendor { get; set; }
+        public string Country { get; set; }
+
         //public List<Beacukai30ItemsTemporary> Items { get; set; }
     }
 }
