@@ -40,6 +40,6 @@ namespace UploadPB.ViewModels
         public string Type { get; set; }
         public DateTime? TruckingDate { get; set; }
         public int JumlahKemasan { get; set; }
-
+        public string Country {get; set;}
     }
 }

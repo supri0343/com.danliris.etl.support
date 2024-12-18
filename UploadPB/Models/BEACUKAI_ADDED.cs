@@ -26,6 +26,7 @@ namespace UploadPB.Models
         public DateTime UpdateDate { get; set; }
         public string Vendor { get; set; }
         public DateTime TruckingDate { get; set; }
+        public string Country { get; set; }
         public List<BEACUKAI_ADDED_DETAIL> Items { get; set; }
     }
 }

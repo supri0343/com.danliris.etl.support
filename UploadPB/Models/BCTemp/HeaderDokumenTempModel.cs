@@ -36,6 +36,7 @@ namespace UploadPB.Models
         public int? JumlahBarang { get; set; }
         public string KodeSupplier { get; set; }
         public string Vendor { get; set; }
+        public string Country { get; set; }
 
 
     }

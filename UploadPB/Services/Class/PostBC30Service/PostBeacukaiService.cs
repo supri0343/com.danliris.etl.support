@@ -75,6 +75,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                                     UpdateDate = DateTime.Now,
                                     Vendor = a.BuyerName,
                                     TruckingDate = item.TruckingDate.Value,
+                                    Country = a.Country,
                                     Items = new List<BEACUKAI_ADDED_DETAIL>(),
                                     
                                 };
