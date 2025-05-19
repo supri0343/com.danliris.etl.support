@@ -15,6 +15,11 @@ using UploadPB.SupporttDbContext;
 using Microsoft.EntityFrameworkCore;
 using UploadPB.Models.Temporary;
 using UploadPB.Services.Interfaces.IPostBC30Service;
+using System.Data;
+using System.Drawing;
+using System.Numerics;
+using System.Runtime.ConstrainedExecution;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace UploadPB.Services.Class.PostBC30Service
 {
@@ -100,57 +105,116 @@ namespace UploadPB.Services.Class.PostBC30Service
                                          UomUnit = b.Sat,
                                          Pack = b.Pack
                                      }).ToList();
+                    //Old Query Header
+                    //var queryheader = ListKemasan.Count == 1 ? (from a in ListHeader
+                    //                                            join b in ListKemasan on a.NoAju equals b.NoAju
+                    //                                            //join c in ListEntitas on a.NoAju equals c.NoAju
+                    //                                            join d in ListDokument on a.NoAju equals d.NoAju
+                    //                                            //join e in ListBarang on a.NoAju equals e.NoAju
+                    //                                            select new Beacukai30HeaderTemporary
+                    //                                            {
+                    //                                                BCId = "",
+                    //                                                BCType = "BC 3.0",
+                    //                                                BCNo = a.BCNo,
+                    //                                                CAR = a.NoAju,
+                    //                                                BCDate = a.TglBCNO.Value.DateTime,
+                    //                                                ExpenditureNo = d.NomorDokumen,
+                    //                                                ExpenditureDate = d.TanggalDokumen.Value.DateTime,
+                    //                                                BuyerCode = "-",
+                    //                                                BuyerName = a.NamaSupplier,
+                    //                                                Vendor = a.NamaSupplier,
+                    //                                                Netto = Convert.ToDouble(a.Netto),
+                    //                                                Bruto = Convert.ToDouble(a.Bruto),
+                    //                                                Pack = b.KodeKemasan,
+                    //                                                Country = a.Country
+                    //                                                //Items = queryitem
+                    //                                            }).ToList() : (from a in ListHeader
+                    //                                                           //join b in ListKemasan on a.NoAju equals b.NoAju
+                    //                                                           //join c in ListEntitas on a.NoAju equals c.NoAju
+                    //                                                           join d in ListDokument on a.NoAju equals d.NoAju
+                    //                                                           join e in ListBarang on a.NoAju equals e.NoAju
+                    //                                                           select new Beacukai30HeaderTemporary
+                    //                                                           {
+                    //                                                               BCId = "",
+                    //                                                               BCType = "BC 3.0",
+                    //                                                               BCNo = a.BCNo,
+                    //                                                               CAR = a.NoAju,
+                    //                                                               BCDate = a.TglBCNO.Value.DateTime,
+                    //                                                               ExpenditureNo = d.NomorDokumen,
+                    //                                                               ExpenditureDate = d.TanggalDokumen.Value.DateTime,
+                    //                                                               BuyerCode = "-",
+                    //                                                               BuyerName = a.NamaSupplier,
+                    //                                                               Vendor = a.NamaSupplier,
+                    //                                                               Netto = Convert.ToDouble(e.Netto),
+                    //                                                               Bruto = Convert.ToDouble(a.Bruto),
+                    //                                                               Pack = e.Pack,
+                    //                                                               Country = a.Country
+                    //                                                               //Netto = Convert.ToDouble(e.Netto),
+                    //                                                               //Bruto = Convert.ToDouble(a.Bruto),
+                    //                                                               //Pack = b.KodeKemasan,
+                    //                                                               //Items = queryitem
+                    //                                                           }).ToList();
 
-                    var queryheader = ListKemasan.Count == 1 ? (from a in ListHeader
-                                                                join b in ListKemasan on a.NoAju equals b.NoAju
-                                                                //join c in ListEntitas on a.NoAju equals c.NoAju
-                                                                join d in ListDokument on a.NoAju equals d.NoAju
-                                                                //join e in ListBarang on a.NoAju equals e.NoAju
-                                                                select new Beacukai30HeaderTemporary
-                                                                {
-                                                                    BCId = "",
-                                                                    BCType = "BC 3.0",
-                                                                    BCNo = a.BCNo,
-                                                                    CAR = a.NoAju,
-                                                                    BCDate = a.TglBCNO.Value.DateTime,
-                                                                    ExpenditureNo = d.NomorDokumen,
-                                                                    ExpenditureDate = d.TanggalDokumen.Value.DateTime,
-                                                                    BuyerCode = "-",
-                                                                    BuyerName = a.NamaSupplier,
-                                                                    Vendor = a.NamaSupplier,
-                                                                    Netto = Convert.ToDouble(a.Netto),
-                                                                    Bruto = Convert.ToDouble(a.Bruto),
-                                                                    Pack = b.KodeKemasan,
-                                                                    //Items = queryitem
-                                                                }).ToList() : (from a in ListHeader
-                                                                               //join b in ListKemasan on a.NoAju equals b.NoAju
-                                                                               //join c in ListEntitas on a.NoAju equals c.NoAju
-                                                                               join d in ListDokument on a.NoAju equals d.NoAju
-                                                                               join e in ListBarang on a.NoAju equals e.NoAju
-                                                                               select new Beacukai30HeaderTemporary
-                                                                               {
-                                                                                   BCId = "",
-                                                                                   BCType = "BC 3.0",
-                                                                                   BCNo = a.BCNo,
-                                                                                   CAR = a.NoAju,
-                                                                                   BCDate = a.TglBCNO.Value.DateTime,
-                                                                                   ExpenditureNo = d.NomorDokumen,
-                                                                                   ExpenditureDate = d.TanggalDokumen.Value.DateTime,
-                                                                                   BuyerCode = "-",
-                                                                                   BuyerName = a.NamaSupplier,
-                                                                                   Vendor = a.NamaSupplier,
-                                                                                   Netto = Convert.ToDouble(e.Netto),
-                                                                                   Bruto = Convert.ToDouble(a.Bruto),
-                                                                                   Pack = e.Pack,
-                                                                                   //Netto = Convert.ToDouble(e.Netto),
-                                                                                   //Bruto = Convert.ToDouble(a.Bruto),
-                                                                                   //Pack = b.KodeKemasan,
-                                                                                   //Items = queryitem
-                                                                               }).ToList();
+                    //new query Header
+                    var newHeader = new List<Beacukai30HeaderTemporary>();
 
+                    foreach(var header in ListHeader)
+                    {
+                        Beacukai30HeaderTemporary dToPush = new Beacukai30HeaderTemporary();
 
+                        //Check jika kamasan dalam no aju yang sama cuma 1
+                        var kemasan = ListKemasan.Where(s => s.NoAju == header.NoAju).ToList();
 
+                        //check list dokumen
+                        var dok = ListDokument.Where(s => s.NoAju == header.NoAju).FirstOrDefault();
 
+                        //if kemasan == 1
+                        if(kemasan.Count == 1)
+                        {
+                            dToPush.BCId = "";
+                            dToPush.BCType = "BC 3.0";
+                            dToPush.BCNo = header.BCNo;
+                            dToPush.CAR = header.NoAju;
+                            dToPush.BCDate = header.TglBCNO.Value.DateTime;
+                            dToPush.ExpenditureNo = dok?.NomorDokumen;
+                            dToPush.ExpenditureDate = dok != null ? dok.TanggalDokumen.Value.DateTime : DateTime.MinValue;
+                            dToPush.BuyerCode = "-";
+                            dToPush.BuyerName = header.NamaSupplier;
+                            dToPush.Vendor = header.NamaSupplier;
+                            dToPush.Netto = Convert.ToDouble(header.Netto);
+                            dToPush.Bruto = Convert.ToDouble(header.Bruto);
+                            dToPush.Pack = kemasan[0].KodeKemasan;
+                            dToPush.Country = header.Country;
+
+                            newHeader.Add(dToPush);
+                        }
+                        //if kemasan > 1
+                        else
+                        {
+                            //get data barang by AJU
+                            var listBarang = ListBarang.Where(s => s.NoAju == header.NoAju).ToList();
+
+                            foreach(var barang in listBarang)
+                            {
+                                dToPush.BCId = "";
+                                dToPush.BCType = "BC 3.0";
+                                dToPush.BCNo = header.BCNo;
+                                dToPush.CAR = header.NoAju;
+                                dToPush.BCDate = header.TglBCNO.Value.DateTime;
+                                dToPush.ExpenditureNo = dok?.NomorDokumen;
+                                dToPush.ExpenditureDate = dok != null ? dok.TanggalDokumen.Value.DateTime : DateTime.MinValue;
+                                dToPush.BuyerCode = "-";
+                                dToPush.BuyerName = header.NamaSupplier;
+                                dToPush.Vendor = header.NamaSupplier;
+                                dToPush.Netto = Convert.ToDouble(barang.Netto);
+                                dToPush.Bruto = Convert.ToDouble(header.Bruto);
+                                dToPush.Pack = barang.Pack;
+                                dToPush.Country = header.Country;
+
+                                newHeader.Add(dToPush);
+                            }
+                        }
+                    }
 
                     //delete all temporaray data
                     var dataHeader = context.Set<Beacukai30HeaderTemporary>();
@@ -164,7 +228,7 @@ namespace UploadPB.Services.Class.PostBC30Service
                     transaction.Commit();
 
                 //UploadTemporaraydData
-                Upload = await InsertToTemporary(queryheader,queryitem);
+                Upload = await InsertToTemporary(newHeader, queryitem);
 
                 }
                 catch (Exception e)
@@ -189,21 +253,21 @@ namespace UploadPB.Services.Class.PostBC30Service
                     {
                         a.BCId = index.ToString();
                   
-                        index++;
                         this.dbSet.Add(a);
-
                         long indexItem = 1;
-                        foreach (var item in items.Where(x => x.Pack == a.Pack))
+                        foreach (var item in items.Where(x => x.Pack == a.Pack && x.CAR == a.CAR))
                         {
                             item.DetailBCId = index.ToString() + indexItem.ToString();
                             item.BCId = a.BCId;
                             indexItem++;
                             context.Beacukai30ItemsTemporaries.Add(item);
+                            await context.SaveChangesAsync();
                         }
+                        await context.SaveChangesAsync();
+                        index++;
                     }
 
-                   
-
+      
                     Created = await context.SaveChangesAsync();
                     transaction.Commit();
 
@@ -313,7 +377,8 @@ namespace UploadPB.Services.Class.PostBC30Service
                             0,//JumlahBarang
                             "",//KodeSupplier
                             ""//Vendor
-                            ));
+                            )
+                        { Country = converterChecker.GenerateValueString(sheet.Cells[rowIndex, 34]) });
                     }
                 }
                 return listData;
